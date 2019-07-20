@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import styles from "../styles";
-import { appRootPath } from "../utils";
+import { MAPX_FILE_PATH } from "../utils";
 import { MGMapView } from "@mapgis/mobile-react-native";
 import { Switch } from "../common";
 
@@ -24,9 +24,7 @@ export default class MapBasicOperate extends Component {
   };
 
   openMap = async () => {
-    await this.mapView.loadFromFile(
-      appRootPath + "/Map/MapShow/WuHan/WuHan.mapx"
-    );
+    await this.mapView.loadFromFile(MAPX_FILE_PATH);
   };
 
   render() {

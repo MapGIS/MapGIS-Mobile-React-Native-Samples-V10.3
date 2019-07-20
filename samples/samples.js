@@ -9,7 +9,7 @@ import {
   View
 } from "react-native";
 import { withNavigation } from "react-navigation";
-import { requestMultiplePermission, appRootPath } from "./utils";
+import { requestMultiplePermission, INITIALIZE_PATH } from "./utils";
 import { Environment } from "@mapgis/mobile-react-native";
 import MapDisplay from "./map-display";
 import MapControl from "./map-control";
@@ -82,7 +82,7 @@ class Samples extends Component {
       //初始化环境目录
       var environmnetModule = new Environment();
       var environmnet = await environmnetModule.createObj();
-      await environmnet.initialize(appRootPath);
+      await environmnet.initialize(INITIALIZE_PATH);
 
       //请求授权
       await environmnet.requestAuthorization();

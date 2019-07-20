@@ -7,7 +7,7 @@ import {
   PixelRatio
 } from "react-native";
 import styles from "../styles";
-import { appRootPath } from "../utils";
+import { MAPX_FILE_PATH } from "../utils";
 import { MGMapView } from "@mapgis/mobile-react-native";
 
 export default class MapBasicOperate extends Component {
@@ -26,9 +26,7 @@ export default class MapBasicOperate extends Component {
   };
 
   openMap = async () => {
-    await this.mapView.loadFromFile(
-      appRootPath + "/Map/MapShow/WuHan/WuHan.mapx"
-    );
+    await this.mapView.loadFromFile(MAPX_FILE_PATH);
     this.mapCenterPoint = await this.mapView.getCenterPoint();
   };
 
