@@ -9,7 +9,10 @@ import {
   View
 } from "react-native";
 import { withNavigation } from "react-navigation";
+import { requestMultiplePermission, appRootPath } from "./utils";
+import { Environment } from "@mapgis/mobile-react-native";
 import MapDisplay from "./map-display";
+import MapControl from "./map-control";
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === "android") {
@@ -68,8 +71,29 @@ class Samples extends Component {
 
   sections = [
     { title: "地图显示", data: mapScreens(MapDisplay) },
-    { title: "地图显示", data: mapScreens(MapDisplay) }
+    { title: "地图控制", data: mapScreens(MapControl) }
   ];
+
+  init = async () => {
+    try {
+      //请求权限
+      await requestMultiplePermission();
+
+      //初始化环境目录
+      var environmnetModule = new Environment();
+      var environmnet = await environmnetModule.createObj();
+      await environmnet.initialize(appRootPath);
+
+      //请求授权
+      await environmnet.requestAuthorization();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  componentDidMount() {
+    this.init();
+  }
 
   render() {
     return (
@@ -88,5 +112,6 @@ class Samples extends Component {
 
 export default {
   examples: { screen: Samples },
-  ...MapDisplay
+  ...MapDisplay,
+  ...MapControl
 };
