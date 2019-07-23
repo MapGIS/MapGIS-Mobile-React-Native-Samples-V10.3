@@ -5,7 +5,7 @@ import { MAPX_FILE_PATH } from "../utils";
 import { MGMapView } from "@mapgis/mobile-react-native";
 import { Switch } from "../common";
 
-export default class MapBasicOperate extends Component {
+export default class MapUIControl extends Component {
   static navigationOptions = { title: "地图界面操作" };
 
   constructor() {

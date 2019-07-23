@@ -13,6 +13,7 @@ import { requestMultiplePermission, INITIALIZE_PATH } from "./utils";
 import { Environment } from "@mapgis/mobile-react-native";
 import MapDisplay from "./map-display";
 import MapControl from "./map-control";
+import MapGraphic from "./map-graphic";
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === "android") {
@@ -71,7 +72,8 @@ class Samples extends Component {
 
   sections = [
     { title: "地图显示", data: mapScreens(MapDisplay) },
-    { title: "地图控制", data: mapScreens(MapControl) }
+    { title: "地图控制", data: mapScreens(MapControl) },
+    { title: "地图覆盖物", data: mapScreens(MapGraphic) },
   ];
 
   init = async () => {
@@ -113,5 +115,6 @@ class Samples extends Component {
 export default {
   examples: { screen: Samples },
   ...MapDisplay,
-  ...MapControl
+  ...MapControl,
+  ...MapGraphic,
 };

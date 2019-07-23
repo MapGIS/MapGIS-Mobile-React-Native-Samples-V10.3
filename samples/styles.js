@@ -33,13 +33,8 @@ export default StyleSheet.create({
         justifyContent: "space-between",
         paddingLeft: 20,
         paddingRight: 20,
-        // backgroundColor: "#292c36"
-        // flexDirection: "column",
-        // position: "absolute",
-        // justifyContent: "space-between",
-        // paddingLeft: 20,
-        // paddingRight: 20,
-        // backgroundColor: "rgba(0.1,255,255,0.1)"
+        backgroundColor: "rgba(1,255,1,0.1)",
+
     },
     columnControl: {
         alignItems: "flex-start",
