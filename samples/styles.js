@@ -33,7 +33,7 @@ export default StyleSheet.create({
         justifyContent: "space-between",
         paddingLeft: 20,
         paddingRight: 20,
-        backgroundColor: "rgba(1,255,1,0.1)",
+        backgroundColor: "rgba(50, 50, 50, 0.5)",
 
     },
     columnControl: {

@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   Platform,
@@ -14,6 +15,7 @@ import { Environment } from "@mapgis/mobile-react-native";
 import MapDisplay from "./map-display";
 import MapControl from "./map-control";
 import MapGraphic from "./map-graphic";
+import MapFeatureQuery from "./map-featurequery";
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === "android") {
@@ -74,6 +76,7 @@ class Samples extends Component {
     { title: "地图显示", data: mapScreens(MapDisplay) },
     { title: "地图控制", data: mapScreens(MapControl) },
     { title: "地图覆盖物", data: mapScreens(MapGraphic) },
+    { title: "要素查询", data: mapScreens(MapFeatureQuery) },
   ];
 
   init = async () => {
@@ -117,4 +120,5 @@ export default {
   ...MapDisplay,
   ...MapControl,
   ...MapGraphic,
+  ...MapFeatureQuery,
 };

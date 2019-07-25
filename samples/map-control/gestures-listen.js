@@ -12,11 +12,9 @@ export default class MapGesturesListen extends Component {
         super();
         this.state = {
             TapListen: true,
-            twoFingerTapZooming: true,
-            mapZoomGesturesEnabled: true,
-            mapPanGesturesEnabled: true,
-            mapSlopeGestures: true,
-            mpRotateGestures: true,
+            DoubleTapListen: true,
+            LongTapListen: true,
+            TouchTapListen: true,
             logs: []
         };
     }
@@ -29,35 +27,80 @@ export default class MapGesturesListen extends Component {
     openMap = async () => {
         await this.mapView.loadFromFile(MAPX_FILE_PATH);
         await this.mapView.setTapListener();
-
+        await this.mapView.setDoubleTapListener();
+        await this.mapView.setLongTapListener();
+        await this.mapView.setTouchListener();
+        console.log("openMap:" + "openMap");
     };
 
     componentDidMount() {
         DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.single_tap_event", (res) => {
 
-            console.log("我是单击事件监听");
-            console.log(res);
-            //遍历对象所有数据
-            var str = '';
-            for (var item in res) {
-                str += item + ":" + res[item] + "\n";
-            }
-            console.log("fjl:" + str);
-
-            return data => {
                 this.setState({
                     logs: [
                         {
+                            Type:"单击事件监听",
                             key: Math.random().toString(),
                             time: new Date().toLocaleString(),
-                            data: JSON.stringify(data, null, 2)
+                            data: JSON.stringify(res, null, 2)
                         },
                         ...this.state.logs
                     ]
                 });
-            };
+
 
         });
+
+        DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.double_tap_event", (res) => {
+
+            this.setState({
+                logs: [
+                    {
+                        Type:"双击事件监听",
+                        key: Math.random().toString(),
+                        time: new Date().toLocaleString(),
+                        data: JSON.stringify(res, null, 2)
+                    },
+                    ...this.state.logs
+                ]
+            });
+
+
+        });
+
+        DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.long_tap_event", (res) => {
+
+            this.setState({
+                logs: [
+                    {
+                        Type:"长按事件监听",
+                        key: Math.random().toString(),
+                        time: new Date().toLocaleString(),
+                        data: JSON.stringify(res, null, 2)
+                    },
+                    ...this.state.logs
+                ]
+            });
+
+
+        });
+
+        DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.touch_event", (res) => {
+
+            this.setState({
+                logs: [
+                    {
+                        Type:"触摸事件监听",
+                        key: Math.random().toString(),
+                        time: new Date().toLocaleString(),
+                        data: JSON.stringify(res, null, 2)
+                    },
+                ]
+            });
+
+
+        });
+
     }
 
     logger(event) {
@@ -79,6 +122,7 @@ export default class MapGesturesListen extends Component {
     renderItem = ({ item }) => (
         <View style={style.item}>
             <View style={style.itemHeader}>
+                <Text style={style.label}>{item.Type}</Text>
                 <Text style={style.time}>{item.time}</Text>
                 <Text style={style.label}>{item.event}</Text>
             </View>
@@ -89,80 +133,79 @@ export default class MapGesturesListen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.columnControls}>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}>放大（单指双击）</Text>
+                <View style={styles.controls}>
+                    <View style={styles.control}>
+                        <Text style={styles.label}>短按监听</Text>
                         <Switch
                             onValueChange={async TapListen => {
                                 this.setState({TapListen});
                                 if(TapListen == true)
                                 {
                                     await this.mapView.setTapListener();
+                                    console.log("TapListen:" + TapListen);
                                 }
                                 else {
-                                    await this.mapView.setTapListener(null);
+                                    console.log("TapListen:" + TapListen);
+                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.single_tap_event",(res) => {});
                                 }
 
                             }}
                             value={this.state.TapListen}
                         />
                     </View>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}>缩小（双指单击）</Text>
+                    <View style={styles.control}>
+                        <Text style={styles.label}>长按监听</Text>
                         <Switch
-                            onValueChange={async twoFingerTapZooming => {
-                                this.setState({twoFingerTapZooming});
-                                await this.mapView.setTwoFingerTapZooming(twoFingerTapZooming);
-                                await this.mapView.refresh();
+                            onValueChange={async LongTapListen => {
+                                this.setState({LongTapListen});
+                                if(LongTapListen == true)
+                                {
+                                    await this.mapView.setLongTapListener();
+                                }
+                                else {
+                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.long_tap_event",(res) => {});
+                                }
                             }}
-                            value={this.state.twoFingerTapZooming}
+                            value={this.state.LongTapListen}
                         />
                     </View>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}>自由缩放</Text>
+                    <View style={styles.control}>
+                        <Text style={styles.label}>双击监听</Text>
                         <Switch
-                            onValueChange={async mapZoomGesturesEnabled => {
-                                this.setState({mapZoomGesturesEnabled});
-                                await this.mapView.setMapZoomGesturesEnabled(mapZoomGesturesEnabled);
-                                await this.mapView.refresh();
-                            }}
-                            value={this.state.mapZoomGesturesEnabled}
-                        />
-                    </View>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}>滑动手势</Text>
-                        <Switch
-                            onValueChange={async mapPanGesturesEnabled => {
-                                this.setState({mapPanGesturesEnabled});
-                                await this.mapView.setMapPanGesturesEnabled(mapPanGesturesEnabled);
-                                await this.mapView.refresh();
-                            }}
-                            value={this.state.mapPanGesturesEnabled}
-                        />
-                    </View>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}>倾斜（双指竖直下滑）</Text>
-                        <Switch
-                            onValueChange={async mapSlopeGestures => {
-                                this.setState({mapSlopeGestures});
-                                await this.mapView.setMapSlopeGesturesEnabled(mapSlopeGestures);
-                                await this.mapView.refresh();
-                            }}
-                            value={this.state.mapSlopeGestures}
-                        />
-                    </View>
-                    <View style={styles.columnControl}>
-                        <Text style={styles.columnLabel}> 双指旋转地图</Text>
-                        <Switch
-                            onValueChange={async mpRotateGestures => {
-                                this.setState({mpRotateGestures});
-                                await this.mapView.setMapRotateGesturesEnabled(mpRotateGestures);
-                                await this.mapView.refresh();
-                            }}
-                            value={this.state.mpRotateGestures}
-                        />
-                    </View>
+                            onValueChange={async DoubleTapListen => {
+                                this.setState({DoubleTapListen});
 
+                                if(DoubleTapListen == true)
+                                {
+                                    await this.mapView.setDoubleTapListener();
+                                }
+                                else {
+                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.double_tap_event",(res) => {});
+                                }
+
+                            }}
+                            value={this.state.DoubleTapListen}
+                        />
+                    </View>
+                    <View style={styles.control}>
+                        <Text style={styles.label}>触摸监听</Text>
+                        <Switch
+                            onValueChange={async TouchTapListen => {
+                                this.setState({TouchTapListen});
+
+                                if(TouchTapListen == true)
+                                {
+                                    console.log("TouchTapListen:" + TouchTapListen);
+                                    await this.mapView.setTouchListener();
+                                }
+                                else {
+                                    console.log("TouchTapListen:" + TouchTapListen);
+                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.touch_event",(res) => {});
+                                }
+                            }}
+                            value={this.state.TouchTapListen}
+                        />
+                    </View>
                 </View>
                 <MGMapView
                     ref="mapView"
@@ -177,11 +220,18 @@ export default class MapGesturesListen extends Component {
 }
 
 const style = StyleSheet.create({
+
+    container: {
+        flexDirection: "column",
+        position: "absolute",
+        justifyContent: "space-between",
+    },
     full: {
         flex: 1
     },
     logs: {
         flex: 1,
+        height: 72,
         elevation: 8,
         backgroundColor: "#292c36"
     },

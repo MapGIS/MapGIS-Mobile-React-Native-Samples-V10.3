@@ -26,7 +26,7 @@ export default class MapGraphicText extends Component {
         this.graphicText = await graphicTextModule.createObj();
         console.log("获取graphicText的ID:" + this.graphicText._MGGraphicTextId);
         console.log("获取graphicText的ID:" + this.graphicText._MGGraphicId);
-        await this.graphicText.setColor("rgba(255, 0, 0, 1)");
+        await this.graphicText.setColor("rgba(0, 255, 255, 1)");
         await this.graphicText.setPoint(dot);
         await this.graphicText.setText("天兴洲");
         await this.graphicText.setFontSize(50);
