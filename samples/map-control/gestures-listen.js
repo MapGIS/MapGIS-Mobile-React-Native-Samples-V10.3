@@ -5,6 +5,10 @@ import {MAPX_FILE_PATH} from "../utils";
 import {MGMapView} from "@mapgis/mobile-react-native";
 import {Switch} from "../common";
 
+/**
+ * @content 地图手势事件监听
+ * @author fjl 2019-7-25 下午2:52:36
+ */
 export default class MapGesturesListen extends Component {
     static navigationOptions = {title: "地图手势事件监听"};
 
@@ -147,6 +151,7 @@ export default class MapGesturesListen extends Component {
                                 else {
                                     console.log("TapListen:" + TapListen);
                                     DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.single_tap_event",(res) => {});
+                                    // DeviceEventEmitter.removeCurrentListener();
                                 }
 
                             }}

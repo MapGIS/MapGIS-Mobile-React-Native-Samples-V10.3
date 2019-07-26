@@ -9,6 +9,10 @@ import { Rect, MGMapView,
     GraphicPolygon,
 } from "@mapgis/mobile-react-native";
 
+/**
+ * @content 坐标添加多边形
+ * @author fjl 2019-7-26 下午2:52:36
+ */
 export default class MapGraphicPolygon extends Component {
     static navigationOptions = { title: "坐标添加多边形" };
     onGetInstance = mapView => {
@@ -32,8 +36,9 @@ export default class MapGraphicPolygon extends Component {
         var graphicPolygonModule = new GraphicPolygon();
         this.graphicPolygon = await graphicPolygonModule.createObj();
         console.log("获取graphicPolygon的ID:" + this.graphicPolygon._MGGraphicPolygonId);
-        await this.graphicPolygon.setColor("rgba(0, 0, 0, 1)");
-        await this.graphicPolygon.setPointSize(10);
+        await this.graphicPolygon.setColor("rgba(0, 0, 0, 180)");
+        await this.graphicPolygon.setBorderlineColor("rgba(100, 200, 0, 90)");
+        await this.graphicPolygon.setBorderlineWidth(10);
         await this.graphicPolygon.setPoints(dotArray, null);
 
         this.graphicsOverlay = await this.mapView.getGraphicsOverlay();

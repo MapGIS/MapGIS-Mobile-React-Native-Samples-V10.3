@@ -10,6 +10,10 @@ import {
     FeatureQuery, GraphicPolygon,
 } from "@mapgis/mobile-react-native";
 
+/**
+ * @content 矩形查询
+ * @author fjl 2019-7-25 下午2:52:36
+ */
 export default class MapRectQuery extends Component {
     static navigationOptions = { title: "矩形查询" };
     onGetInstance = mapView => {
@@ -64,6 +68,7 @@ export default class MapRectQuery extends Component {
 
         var featureQuery = new FeatureQuery();
         var query = await featureQuery.createObjByProperty(mapLayer);
+        await query.setPageSize(40);
         await query.setQueryBound(queryBound);
         var featurePagedResult = await query.query();
 
@@ -71,13 +76,25 @@ export default class MapRectQuery extends Component {
         var pagecount = await featurePagedResult.getPageCount();
         var getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
+        var graphicArry = [];
         var featureLst = await featurePagedResult.getPage(1);
         for (var i = 0; i < featureLst.length; i++) {
             var feature = await featureLst[i];
             var attributes = await feature.getAttributes();
             console.log("getAttributes:" + attributes);
+
+            var graphicList = await feature.toGraphics();
+           for (var j =0; j < graphicList.length;j++)
+            {
+                console.log("_MGGraphicId:" + graphicList[j]._MGGraphicId);
+                graphicArry.push(graphicList[j]);
+            }
         }
 
+        console.log(" graphicArry.length:" + graphicArry.length);
+        this.graphicsOverlay =   await this.mapView.getGraphicsOverlay();
+        await this.graphicsOverlay.addGraphics(graphicArry);
+        await this.mapView.refresh();
         ToastAndroid.show('查询结果总数为：'+getTotalFeatureCount+"，请在console控制台查看！", ToastAndroid.SHORT);
         console.log("pagecount:" + pagecount);
         console.log("getTotalFeatureCount:" + getTotalFeatureCount);

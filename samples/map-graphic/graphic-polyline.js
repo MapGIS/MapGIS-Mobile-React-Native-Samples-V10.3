@@ -9,6 +9,10 @@ import { Rect, MGMapView,
     GraphicPolygon,
 } from "@mapgis/mobile-react-native";
 
+/**
+ * @content 坐标添加线
+ * @author fjl 2019-7-26 下午2:52:36
+ */
 export default class MapGraphicPolyline extends Component {
     static navigationOptions = { title: "坐标添加线" };
     onGetInstance = mapView => {
@@ -29,7 +33,7 @@ export default class MapGraphicPolyline extends Component {
         var graphicPolylinModule = new GraphicPolylin();
         this.graphicPolylin = await graphicPolylinModule.createObj();
         console.log("获取graphicPolylin的ID:" + this.graphicPolylin._MGGraphicPolylinId);
-        await this.graphicPolylin.setColor("rgba(0, 0, 0, 1)");
+        // await this.graphicPolylin.setColor("rgba(0, 0, 0, 1)");
         await this.graphicPolylin.setLineWidth(10);
         await this.graphicPolylin.setPoints(dotArray);
 

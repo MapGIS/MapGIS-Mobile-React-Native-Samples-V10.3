@@ -10,6 +10,10 @@ import
     GraphicPolygon,
 } from "@mapgis/mobile-react-native";
 
+/**
+ * @content 坐标添加点
+ * @author fjl 2019-7-26 下午2:52:36
+ */
 export default class MapGraphicPoint extends Component {
     static navigationOptions = { title: "坐标添加点" };
     onGetInstance = mapView => {
@@ -31,8 +35,8 @@ export default class MapGraphicPoint extends Component {
         var graphicMultiPointModule = new GraphicMultiPoint();
         this.graphicMultiPoint = await graphicMultiPointModule.createObj();
         console.log("graphicMultiPointModule:" + this.graphicMultiPoint._MGGraphicMultiPointId);
-        await this.graphicMultiPoint.setColor("rgba(0, 0, 0, 1)");
-        await this.graphicMultiPoint.setPointSize(10);
+        await this.graphicMultiPoint.setColor("rgba(100, 200, 0, 12)");
+        await this.graphicMultiPoint.setPointSize(20);
         await this.graphicMultiPoint.setPoints(dotArray);
 
         this.graphicsOverlay =   await this.mapView.getGraphicsOverlay();
