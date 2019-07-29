@@ -162,7 +162,7 @@ export default class MapShowListen extends Component {
                                     await this.mapView.setZoomChangedListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeZoomChangedListener();
                                 }
 
                             }}
@@ -179,7 +179,7 @@ export default class MapShowListen extends Component {
                                     await this.mapView.setRotateChangedListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeRotateChangedListener();
                                 }
                                 await this.mapView.refresh();
 
@@ -192,12 +192,12 @@ export default class MapShowListen extends Component {
                         <Switch
                             onValueChange={async centerchangelisten => {
                                 this.setState({centerchangelisten});
-                                if(centerchangelistener == true)
+                                if(centerchangelisten == true)
                                 {
                                     await this.mapView.setCenterChangedListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeCenterChangedListener();
                                 }
                                 await this.mapView.refresh();
                             }}
@@ -214,7 +214,7 @@ export default class MapShowListen extends Component {
                                     await this.mapView.setAnimationListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeAnimationListener();
                                 }
                                 await this.mapView.refresh();
                             }}
@@ -231,7 +231,7 @@ export default class MapShowListen extends Component {
                                     await this.mapView.setRefreshListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeRefreshListener();
                                 }
                                 await this.mapView.refresh();
                             }}

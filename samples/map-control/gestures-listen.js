@@ -150,8 +150,7 @@ export default class MapGesturesListen extends Component {
                                 }
                                 else {
                                     console.log("TapListen:" + TapListen);
-                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.single_tap_event",(res) => {});
-                                    // DeviceEventEmitter.removeCurrentListener();
+                                    await this.mapView.removeTapListener();
                                 }
 
                             }}
@@ -168,7 +167,7 @@ export default class MapGesturesListen extends Component {
                                     await this.mapView.setLongTapListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.long_tap_event",(res) => {});
+                                    await this.mapView.removeLongTapListener();
                                 }
                             }}
                             value={this.state.LongTapListen}
@@ -185,7 +184,8 @@ export default class MapGesturesListen extends Component {
                                     await this.mapView.setDoubleTapListener();
                                 }
                                 else {
-                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.double_tap_event",(res) => {});
+                                    await this.mapView.removeDoubleTapListener();
+                                    // DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.double_tap_event",(res) => {});
                                 }
 
                             }}
@@ -205,7 +205,7 @@ export default class MapGesturesListen extends Component {
                                 }
                                 else {
                                     console.log("TouchTapListen:" + TouchTapListen);
-                                    DeviceEventEmitter.removeListener("com.mapgis.RN.Mapview.touch_event",(res) => {});
+                                    await this.mapView.removeTouchListener();
                                 }
                             }}
                             value={this.state.TouchTapListen}
