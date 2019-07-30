@@ -53,7 +53,7 @@ export default class MapRectQuery extends Component {
         await this.mapView.refresh();
     };
 
-    featureQuery = async () => {
+    _featureQuery = async () => {
         var R = new Rect();
         var quryRect = await R.createObj(12730000, 3550000, 12760000, 3580000);
         var qu = new QueryBound();
@@ -68,7 +68,8 @@ export default class MapRectQuery extends Component {
 
         var featureQuery = new FeatureQuery();
         var query = await featureQuery.createObjByProperty(mapLayer);
-        await query.setPageSize(40);
+        await query.setPageSize(10000);
+        await query.setSpatialFilterRelationship(1);
         await query.setQueryBound(queryBound);
         var featurePagedResult = await query.query();
 
@@ -82,6 +83,7 @@ export default class MapRectQuery extends Component {
             var feature = await featureLst[i];
             var attributes = await feature.getAttributes();
             console.log("getAttributes:" + attributes);
+            console.log("_MGFeatureId:" + feature._MGFeatureId);
 
             var graphicList = await feature.toGraphics();
            for (var j =0; j < graphicList.length;j++)
@@ -111,7 +113,7 @@ export default class MapRectQuery extends Component {
                 />
                 <View style={styles.buttons}>
                     <View style={styles.button}>
-                        <TouchableOpacity onPress={this.featureQuery}>
+                        <TouchableOpacity onPress={this._featureQuery}>
                             <Text style={styles.text}>矩形查询</Text>
                         </TouchableOpacity>
                     </View>

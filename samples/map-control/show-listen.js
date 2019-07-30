@@ -17,10 +17,10 @@ export default class MapShowListen extends Component {
         this.state = {
             TapListen: true,
             zoomChangeListen: true,
-            angelChangeListen: true,
-            centerchangelisten: true,
-            animationchangelisten: true,
-            refreshchangelisten: true,
+            angelChangeListen: false,
+            centerchangelisten: false,
+            animationchangelisten: false,
+            refreshchangelisten: false,
             logs: []
         };
     }
@@ -34,10 +34,10 @@ export default class MapShowListen extends Component {
         await this.mapView.loadFromFile(MAPX_FILE_PATH);
 
         await this.mapView.setZoomChangedListener();
-        await this.mapView.setRotateChangedListener();
-        await this.mapView.setCenterChangedListener();
+        // await this.mapView.setRotateChangedListener();
+        // await this.mapView.setCenterChangedListener();
         // await this.mapView.setRefreshListener();
-        await this.mapView.setAnimationListener();
+        // await this.mapView.setAnimationListener();
     };
 
     componentDidMount() {
@@ -52,7 +52,6 @@ export default class MapShowListen extends Component {
                         time: new Date().toLocaleString(),
                         data: JSON.stringify(res, null, 2)
                     },
-                    ...this.state.logs
                 ]
             });
         });
@@ -67,7 +66,6 @@ export default class MapShowListen extends Component {
                         time: new Date().toLocaleString(),
                         data: JSON.stringify(res, null, 2)
                     },
-                    ...this.state.logs
                 ]
             });
         });
@@ -114,7 +112,6 @@ export default class MapShowListen extends Component {
                         time: new Date().toLocaleString(),
                         data: JSON.stringify(res, null, 2)
                     },
-                    ...this.state.logs
                 ]
             });
         });
@@ -136,7 +133,7 @@ export default class MapShowListen extends Component {
         };
     }
 
-    renderItem = ({ item }) => (
+    _renderItem = ({ item }) => (
         <View style={style.item}>
             <View style={style.itemHeader}>
                 <Text style={style.label}>{item.Type}</Text>
@@ -245,7 +242,7 @@ export default class MapShowListen extends Component {
                     onGetInstance={this.onGetInstance}
                     style={styles.mapView}
                 />
-                <FlatList style={style.logs} data={this.state.logs} renderItem={this.renderItem} />
+                <FlatList style={style.logs} data={this.state.logs} renderItem={this._renderItem} />
             </View>
         );
     }

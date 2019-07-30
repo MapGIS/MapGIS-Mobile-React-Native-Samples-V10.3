@@ -16,9 +16,9 @@ export default class MapGesturesListen extends Component {
         super();
         this.state = {
             TapListen: true,
-            DoubleTapListen: true,
-            LongTapListen: true,
-            TouchTapListen: true,
+            DoubleTapListen: false,
+            LongTapListen: false,
+            TouchTapListen: false,
             logs: []
         };
     }
@@ -31,9 +31,9 @@ export default class MapGesturesListen extends Component {
     openMap = async () => {
         await this.mapView.loadFromFile(MAPX_FILE_PATH);
         await this.mapView.setTapListener();
-        await this.mapView.setDoubleTapListener();
-        await this.mapView.setLongTapListener();
-        await this.mapView.setTouchListener();
+        // await this.mapView.setDoubleTapListener();
+        // await this.mapView.setLongTapListener();
+        // await this.mapView.setTouchListener();
         console.log("openMap:" + "openMap");
     };
 
@@ -48,7 +48,6 @@ export default class MapGesturesListen extends Component {
                             time: new Date().toLocaleString(),
                             data: JSON.stringify(res, null, 2)
                         },
-                        ...this.state.logs
                     ]
                 });
 
@@ -65,7 +64,7 @@ export default class MapGesturesListen extends Component {
                         time: new Date().toLocaleString(),
                         data: JSON.stringify(res, null, 2)
                     },
-                    ...this.state.logs
+                    // ...this.state.logs
                 ]
             });
 
@@ -82,7 +81,6 @@ export default class MapGesturesListen extends Component {
                         time: new Date().toLocaleString(),
                         data: JSON.stringify(res, null, 2)
                     },
-                    ...this.state.logs
                 ]
             });
 
@@ -236,9 +234,10 @@ const style = StyleSheet.create({
     },
     logs: {
         flex: 1,
-        height: 72,
+        height: 12,
         elevation: 8,
-        backgroundColor: "#292c36"
+        backgroundColor: "#292c36",
+        // backgroundColor: "rgba(41, 44, 54, 0.5)",
     },
     item: {
         paddingLeft: 15,

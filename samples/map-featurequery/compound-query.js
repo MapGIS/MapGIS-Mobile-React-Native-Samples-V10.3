@@ -54,7 +54,7 @@ export default class MapCompoundQuery extends Component {
         await this.mapView.refresh();
     };
 
-    featureQuery = async () => {
+    _featureQuery = async () => {
         var R = new Rect();
         var quryRect = await R.createObj(12730000, 3550000, 12760000, 3580000);
         var qu = new QueryBound();
@@ -71,7 +71,7 @@ export default class MapCompoundQuery extends Component {
         var featureQuery = new FeatureQuery();
         var query = await featureQuery.createObjByProperty(mapLayer);
         await query.setQueryBound(queryBound);
-        // await query.setWhereClause("Name like '%湖%'");
+        await query.setSpatialFilterRelationship(1);
         await query.setWhereClause("Name like '%"+this.attr+"%'");
         var featurePagedResult = await query.query();
 
@@ -123,7 +123,7 @@ export default class MapCompoundQuery extends Component {
                         onChangeText={text => (this.attr = text)}
                         onSubmitEditing={this.search}
                     />
-                    <Button title="复合查询" onPress={this.featureQuery} />
+                    <Button title="复合查询" onPress={this._featureQuery} />
                 </View>
             </View>
         );

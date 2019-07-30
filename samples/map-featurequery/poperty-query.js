@@ -27,7 +27,7 @@ export default class MapPopertyQuery extends Component {
 
     };
 
-    featureQuery = async () => {
+    _featureQuery = async () => {
         var map = await this.mapView.getMap();
         var mapLayer = await map.getLayer(3);
         console.log("mapLayer.getName:" + await mapLayer.getName());
@@ -84,7 +84,7 @@ export default class MapPopertyQuery extends Component {
                         onChangeText={text => (this.attr = text)}
                         onSubmitEditing={this.search}
                     />
-                    <Button title="属性查询" onPress={this.featureQuery} />
+                    <Button title="属性查询" onPress={this._featureQuery} />
                 </View>
             </View>
         );
