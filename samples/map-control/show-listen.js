@@ -33,11 +33,11 @@ export default class MapShowListen extends Component {
     openMap = async () => {
         await this.mapView.loadFromFile(MAPX_FILE_PATH);
 
-        await this.mapView.setZoomChangedListener();
-        // await this.mapView.setRotateChangedListener();
-        // await this.mapView.setCenterChangedListener();
-        // await this.mapView.setRefreshListener();
-        // await this.mapView.setAnimationListener();
+        await this.mapView.registerZoomChangedListener();
+        // await this.mapView.registerRotateChangedListener();
+        // await this.mapView.registerCenterChangedListener();
+        // await this.mapView.registerRefreshListener();
+        // await this.mapView.registerAnimationListener();
     };
 
     componentDidMount() {
@@ -156,10 +156,10 @@ export default class MapShowListen extends Component {
                                 this.setState({zoomChangeListen});
                                 if(zoomChangeListen == true)
                                 {
-                                    await this.mapView.setZoomChangedListener();
+                                    await this.mapView.registerZoomChangedListener();
                                 }
                                 else {
-                                    await this.mapView.removeZoomChangedListener();
+                                    await this.mapView.unregisterZoomChangedListener();
                                 }
 
                             }}
@@ -173,10 +173,10 @@ export default class MapShowListen extends Component {
                                 this.setState({angelChangeListen});
                                 if(angelChangeListen == true)
                                 {
-                                    await this.mapView.setRotateChangedListener();
+                                    await this.mapView.registerRotateChangedListener();
                                 }
                                 else {
-                                    await this.mapView.removeRotateChangedListener();
+                                    await this.mapView.unregisterRotateChangedListener();
                                 }
                                 await this.mapView.refresh();
 
@@ -191,10 +191,10 @@ export default class MapShowListen extends Component {
                                 this.setState({centerchangelisten});
                                 if(centerchangelisten == true)
                                 {
-                                    await this.mapView.setCenterChangedListener();
+                                    await this.mapView.registerCenterChangedListener();
                                 }
                                 else {
-                                    await this.mapView.removeCenterChangedListener();
+                                    await this.mapView.unregisterCenterChangedListener();
                                 }
                                 await this.mapView.refresh();
                             }}
@@ -208,10 +208,10 @@ export default class MapShowListen extends Component {
                                 this.setState({animationchangelisten});
                                 if(animationchangelisten == true)
                                 {
-                                    await this.mapView.setAnimationListener();
+                                    await this.mapView.registerAnimationListener();
                                 }
                                 else {
-                                    await this.mapView.removeAnimationListener();
+                                    await this.mapView.unregisterAnimationListener();
                                 }
                                 await this.mapView.refresh();
                             }}
@@ -225,10 +225,10 @@ export default class MapShowListen extends Component {
                                 this.setState({refreshchangelisten});
                                 if(refreshchangelisten == true)
                                 {
-                                    await this.mapView.setRefreshListener();
+                                    await this.mapView.registerRefreshListener();
                                 }
                                 else {
-                                    await this.mapView.removeRefreshListener();
+                                    await this.mapView.unregisterRefreshListener();
                                 }
                                 await this.mapView.refresh();
                             }}

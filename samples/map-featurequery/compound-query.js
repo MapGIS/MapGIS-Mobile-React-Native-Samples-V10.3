@@ -1,13 +1,19 @@
 import React, { Component } from "react";
-import {View, ToastAndroid, TouchableOpacity, Text,Button, StyleSheet, TextInput} from "react-native";
+import {Alert, View, ToastAndroid, TouchableOpacity, Text,Button, StyleSheet, TextInput, DeviceEventEmitter} from "react-native";
 import styles from "../styles";
 import { MAPX_FILE_PATH } from "../utils";
+import {ANN_FILE_PATH} from "../utils";
 import {
     Rect, MGMapView,
     Dot,
     PointF,
+    GraphicPoint,
     QueryBound,
-    FeatureQuery, GraphicPolygon,
+    FeatureQuery, 
+    GraphicPolygon,
+    AnnotationView,
+    Image,
+    Annotation,
 } from "@mapgis/mobile-react-native";
 
 /**
@@ -16,93 +22,202 @@ import {
  */
 export default class MapCompoundQuery extends Component {
     static navigationOptions = { title: "复合查询" };
+    constructor(){         
+        super()         
+        this.state = {  
+            queryRect:null, 
+            firstDot:null,
+            secondDot:null,
+            isFirstPoint:true,  
+            isClickTwo:false,    
+        };         
+    }
+
     onGetInstance = mapView => {
         this.mapView = mapView;
         this.openMap();
-
     };
 
     openMap = async () => {
+        await this.mapView.registerMapLoadListener();
         await this.mapView.loadFromFile(MAPX_FILE_PATH);
-
-        var dotModule = new Dot();
-        var dotArray = [];
-        var intArr = [4];
-        var dot1 = await dotModule.createObj(12730000, 3550000);
-        var dot2 = await dotModule.createObj(12730000, 3580000);
-        var dot3 = await dotModule.createObj(12760000, 3580000);
-        var dot4 = await dotModule.createObj(12760000, 3550000);
-        dotArray.push(dot1);
-        dotArray.push(dot2);
-        dotArray.push(dot3);
-        dotArray.push(dot4);
-        dotArray.push(dot1);
-        var graphicPolygonModule = new GraphicPolygon();
-        this.graphicPolygon = await graphicPolygonModule.createObj();
-        console.log("获取graphicPolygon的ID:" + this.graphicPolygon._MGGraphicPolygonId);
-        await this.graphicPolygon.setColor("rgba(50, 50, 50, 50)");
-        await this.graphicPolygon.setBorderlineColor("rgba(20, 255, 0, 10)");
-        await this.graphicPolygon.setPointSize(10);
-        await this.graphicPolygon.setPoints(dotArray, null);
-
-        this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
-        await this.graphicsOverlay.addGraphic(this.graphicPolygon);
-
-        var R = new Rect();
-        var quryRect = await R.createObj(12716197.610, 3522206.2847, 12772863.4857, 3611612.4442);
-        await this.mapView.zoomToRange(quryRect,true);
-        await this.mapView.refresh();
     };
 
-    _featureQuery = async () => {
-        var R = new Rect();
-        var quryRect = await R.createObj(12730000, 3550000, 12760000, 3580000);
-        var qu = new QueryBound();
-        var queryBound = await qu.createObj();
-        await queryBound.setRect(quryRect);
-
-        console.log("queryBoundid:" + queryBound._MGQueryBoundId);
-
-        var map = await this.mapView.getMap();
-        var mapLayer = await map.getLayer(3);
-        console.log("mapLayer.getName:" + await mapLayer.getName());
-        console.log("this.attr:" + "Name like '%"+this.attr+"%'");
-
-        var featureQuery = new FeatureQuery();
-        var query = await featureQuery.createObjByProperty(mapLayer);
-        await query.setQueryBound(queryBound);
-        await query.setSpatialFilterRelationship(1);
-        await query.setWhereClause("Name like '%"+this.attr+"%'");
-        var featurePagedResult = await query.query();
-
-        console.log("featurePagedResult:" + await featurePagedResult._MGFeaturePagedResultId);
-        var pagecount = await featurePagedResult.getPageCount();
-        var getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
-
-        var graphicArry = [];
-        var featureLst = await featurePagedResult.getPage(1);
-        for (var i = 0; i < featureLst.length; i++) {
-            var feature = await featureLst[i];
-            var attributes = await feature.getAttributes();
-            console.log("getAttributes:" + attributes);
-
-            var graphicList = await feature.toGraphics();
-            for (var j =0; j < graphicList.length;j++)
+    componentDidMount() {
+        DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.LoadMapListener_Finish", async res => {
+            if(res.DidFinishLoadingMap)
             {
-                console.log("_MGGraphicId:" + graphicList[j]._MGGraphicId);
-                graphicArry.push(graphicList[j]);
+                let R = new Rect();
+                let mapRange = await R.createObj(12705276.572663, 3542912.332349, 12746062.170780, 3607262.942711);
+                await this.mapView.zoomToRange(mapRange, false);  
             }
-        }
+        }); 
 
-        console.log(" graphicArry.length:" + graphicArry.length);
-        this.graphicsOverlay =   await this.mapView.getGraphicsOverlay();
-        await this.graphicsOverlay.addGraphics(graphicArry);
+        DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.single_tap_event", async res => {
+
+            let graphicPointModule = new GraphicPoint();
+            let graphicPoint = await graphicPointModule.createObj();
+            let dotModule = new Dot();
+            let dot = await dotModule.createObj(res.x, res.y);
+            await graphicPoint.setPointAndSize(dot, 5);
+                      
+            if (this.state.isFirstPoint) {         
+                this.setState({isFirstPoint:false,
+                    firstDot:dot,
+                    isClickTwo:false}); 
+                this.setState({isClickTwo:false});                          
+            } else {
+                this.setState({isFirstPoint:true,
+                    secondDot:dot,
+                    isClickTwo:true});
+                this.setState({isClickTwo:true});        
+            }
+            let graphicsOverlay =   await this.mapView.getGraphicsOverlay();
+            await graphicsOverlay.addGraphic(graphicPoint);
+            await this.mapView.refresh(); 
+            
+            if (this.state.isClickTwo) 
+            {
+                let xmin, xmax, ymin, ymax;
+
+                let leftDot = this.state.firstDot;
+                let rightDot = this.state.secondDot;
+
+                xmin = await leftDot.getX();
+                xmax = await rightDot.getX();
+                ymin = await leftDot.getY();
+                ymax = await rightDot.getY();
+
+                let dotArray = [];
+                let dot1 = await dotModule.createObj(xmin, ymin);
+                let dot2 = await dotModule.createObj(xmin, ymax);
+                let dot3 = await dotModule.createObj(xmax, ymax);
+                let dot4 = await dotModule.createObj(xmax, ymin);
+                dotArray.push(dot1);
+                dotArray.push(dot2);
+                dotArray.push(dot3);
+                dotArray.push(dot4);
+                //为rect赋予范围
+                let rectMoudle = new Rect();
+                let qryRect = await rectMoudle.createObj(xmin, ymin, xmax, ymax);
+                this.setState({queryRect:qryRect});   
+
+                let graphicPolygonModule = new GraphicPolygon();
+                let graphicPolygon = await graphicPolygonModule.createObj();
+                
+                await graphicPolygon.setColor("rgba(130, 130,130, 180)");
+                await graphicPolygon.setBorderlineColor("rgba(100, 200, 0, 180)");
+                await graphicPolygon.setBorderlineWidth(10);
+                await graphicPolygon.setPoints(dotArray, null);
+
+                await graphicsOverlay.removeAllGraphics();
+                await graphicsOverlay.addGraphic(graphicPolygon);
+                let annotationsOverlay =   await this.mapView.getAnnotationsOverlay();
+                await annotationsOverlay.removeAllAnnotations();
+                await this.mapView.refresh();
+                Alert.alert('属性查询条件',"Name like '%公园%'", [{text:"查询", onPress:this.featureQuery}, 
+                {text:"取消", onPress:this.queryCancel}]); 
+            }  
+               
+        });
+
+       DeviceEventEmitter.addListener("com.mapgis.RN.Mapview.AnnotationListenerA_ViewByAnn", async res => {
+            
+        let {AnnotationId} = res;
+        var annotation = new Annotation();
+        annotation._MGAnnotationId = AnnotationId;
+        let annotationViewModule = new AnnotationView();
+        let annotationView = await annotationViewModule.createObj(this.mapView, annotation);
+        return annotationView;
+    }); 
+    }
+
+    featureQuery = async () => {
+    
+         //清空标注层
+         let annotationsOverlay =   await this.mapView.getAnnotationsOverlay();
+         await annotationsOverlay.removeAllAnnotations();
+ 
+         let condition = "Name like '%公园%'";
+        
+         let qu = new QueryBound();
+         let queryBound = await qu.createObjByRect(this.state.queryRect);
+
+         let map = await this.mapView.getMap();
+         var mapLayer = await map.getLayer(11);
+         console.log("mapLayer.getName:" + await mapLayer.getName());
+         if(mapLayer != null)
+         {
+             let featureQuery = new FeatureQuery();
+             let query = await featureQuery.createObjByProperty(mapLayer);
+             await query.setWhereClause(condition); 
+             await query.setQueryBound(queryBound);            
+             await query.setPageSize(20);
+             await query.setSpatialFilterRelationship(1);             
+ 
+             let featurePagedResult = await query.query();
+             let pagecount = await featurePagedResult.getPageCount();
+             let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
+ 
+             let strFieldName="Name";
+            
+             let featureName = "";
+             let featureLst = await featurePagedResult.getPage(1);          
+             for (var j = 0; j < featureLst.length; j++) {
+                 let feature = await featureLst[j];
+                 let attributes = await feature.getAttributes();
+                 console.log("getAttributes:" + attributes + "--featureLst.length"+ featureLst.length);
+                 var jsonObj = JSON.parse(attributes); 
+                 console.log("getAttributes:-jsonObj[strFieldName]---" + jsonObj[strFieldName]);      
+                      
+                 featureName = jsonObj[strFieldName];
+                   
+                 //获取要素的几何信息（默认查询点要素）
+                 let fGeometry = await feature.getGeometry();
+                 let featureType = await fGeometry.getType(); 
+                 let dotX = 0;
+                 let dotY = 0;              
+                 if (featureType == 1 || featureType == 2) {
+                     let dots3D = await fGeometry.getDots();
+                     let dot = await dots3D.get(0);
+                     dotX = await dot.getX();
+                     dotY = await dot.getY();                   
+                 } 
+                 let pointModule = new Dot();
+                 let point = await pointModule.createObj(dotX, dotY);
+                 let image = new Image();
+                 let bmp = await image.createObjByLocalPath(ANN_FILE_PATH);
+                 let AnnotationModule = new Annotation();
+                 let annotation = await AnnotationModule.createObj(featureName, featureName, point, bmp);
+                 await annotationsOverlay.addAnnotation(annotation);                 
+                 await this.mapView.registerAnnotationListener();
+             } 
+             await this.mapView.forceRefresh();
+             ToastAndroid.show('查询结果总数为：'+getTotalFeatureCount, ToastAndroid.LONG);
+             console.log("pagecount:" + pagecount);
+             console.log("getTotalFeatureCount:" + getTotalFeatureCount);
+             console.log("featureLst:" + featureLst.length);
+            }
+    };
+
+    queryCancel= async () => {
+        let graphicsOverlay =   await this.mapView.getGraphicsOverlay();
+        await graphicsOverlay.removeAllGraphics();
+        let annotationsOverlay =   await this.mapView.getAnnotationsOverlay();
+        await annotationsOverlay.removeAllAnnotations();
         await this.mapView.refresh();
-
-        ToastAndroid.show('查询结果总数为：'+getTotalFeatureCount+"，请在console控制台查看！", ToastAndroid.SHORT);
-        console.log("pagecount:" + pagecount);
-        console.log("getTotalFeatureCount:" + getTotalFeatureCount);
-        console.log("featureLst:" + featureLst.length);
+    }
+    
+    compoundQry = async () => {
+    
+        ToastAndroid.show("提示：在地图上点击两点确定范围，属性查询“四级点”图层名称含“公园”的POI点", ToastAndroid.LONG);
+        await this.mapView.registerTapListener();
+        let graphicsOverlay =   await this.mapView.getGraphicsOverlay();
+        await graphicsOverlay.removeAllGraphics();
+        //清空标注层
+        let annotationsOverlay =   await this.mapView.getAnnotationsOverlay();
+        await annotationsOverlay.removeAllAnnotations();
+        await this.mapView.refresh();
     };
 
     render() {
@@ -115,15 +230,7 @@ export default class MapCompoundQuery extends Component {
                 />
 
                 <View style={style.form}>
-                    <TextInput
-                        style={style.input}
-                        returnKeyType="search"
-                        placeholder="请输入查询的属性，例如：湖"
-                        placeholderTextColor="#9e9e9e"
-                        onChangeText={text => (this.attr = text)}
-                        onSubmitEditing={this.search}
-                    />
-                    <Button title="复合查询" onPress={this._featureQuery} />
+                    <Button title="拉框复合查询" onPress={this.compoundQry} />
                 </View>
             </View>
         );

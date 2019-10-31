@@ -41,6 +41,8 @@ export default class MapGraphicPoint extends Component {
 
         this.graphicsOverlay =   await this.mapView.getGraphicsOverlay();
         await this.graphicsOverlay.addGraphic(this.graphicMultiPoint);
+
+        alert("this.graphicStippleLine.getLineWidth(): ");
     };
 
     render() {

@@ -1,17 +1,18 @@
 import { mapComponents } from "../utils";
 import MapGraphicPoint from "./graphic-point";
 import MapGraphicPolyline from "./graphic-polyline";
-import MapGraphicPolygon from "./graphic-polygon";
 import MapGraphicCircle from "./graphic-circle";
+import MapGraphicPolygon from "./graphic-polygon";
 import MapGraphicText from "./graphic-text";
-import MapGraphicImage from "./graphic-image";
-
+import MapGraphicImage from "./graphic-image"; 
+import MapGraphicInterActive from "./graphic-interactive";
 
 export default mapComponents("MapGraphic", {
   MapGraphicPoint,
   MapGraphicPolyline,
-  MapGraphicPolygon,
   MapGraphicCircle,
+  MapGraphicPolygon,
   MapGraphicText,
   MapGraphicImage,
+  MapGraphicInterActive,
 });

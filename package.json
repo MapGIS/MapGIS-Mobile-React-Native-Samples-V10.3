@@ -11,6 +11,7 @@
     "@mapgis/mobile-react-native": "^1.0.2",
     "react": "16.8.6",
     "react-native": "0.60.3",
+    "react-native-flexi-radio-button": "^0.2.2",
     "react-native-gesture-handler": "^1.3.0",
     "react-navigation": "^3.11.1"
   },
