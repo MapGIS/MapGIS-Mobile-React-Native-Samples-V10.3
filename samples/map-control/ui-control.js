@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import styles from "../styles";
-import { MAPX_FILE_PATH } from "../utils";
-import { MGMapView } from "@mapgis/mobile-react-native";
-import { Switch } from "../common";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import styles from '../styles';
+import { MAPX_FILE_PATH } from '../utils';
+import { MGMapView } from '@mapgis/mobile-react-native';
+import { Switch } from '../common';
 
 export default class MapUIControl extends Component {
-  static navigationOptions = { title: "地图界面操作" };
+  static navigationOptions = { title: '地图界面操作' };
 
   constructor() {
     super();
@@ -14,7 +14,7 @@ export default class MapUIControl extends Component {
       showZoomControls: true,
       showLogo: true,
       showScaleBar: true,
-      showNorthArrow: true
+      showNorthArrow: true,
     };
   }
 

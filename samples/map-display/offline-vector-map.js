@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import styles from "../styles";
-import { MAPX_FILE_PATH } from "../utils";
-import { Rect, MGMapView } from "@mapgis/mobile-react-native";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import styles from '../styles';
+import { MAPX_FILE_PATH } from '../utils';
+import { Rect, MGMapView } from '@mapgis/mobile-react-native';
 
 export default class OfflineVectorMap extends Component {
-  static navigationOptions = { title: "离线矢量地图" };
+  static navigationOptions = { title: '离线矢量地图' };
   onGetInstance = mapView => {
     this.mapView = mapView;
     this.openMap();

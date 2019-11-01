@@ -1,5 +1,4 @@
-
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Platform,
   SectionList,
@@ -7,43 +6,43 @@ import {
   Text,
   TouchableHighlight,
   TouchableNativeFeedback,
-  View
-} from "react-native";
-import { withNavigation } from "react-navigation";
-import { requestMultiplePermission, INITIALIZE_PATH } from "./utils";
-import { Environment } from "@mapgis/mobile-react-native";
-import MapDisplay from "./map-display";
-import MapControl from "./map-control";
-import MapGraphic from "./map-graphic";
-import MapFeatureQuery from "./map-featurequery";
+  View,
+} from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { requestMultiplePermission, INITIALIZE_PATH } from './utils';
+import { Environment } from '@mapgis/mobile-react-native';
+import MapDisplay from './map-display';
+import MapControl from './map-control';
+import MapGraphic from './map-graphic';
+import MapFeatureQuery from './map-featurequery';
 
 let Touchable = TouchableHighlight;
-if (Platform.OS === "android") {
+if (Platform.OS === 'android') {
   Touchable = TouchableNativeFeedback;
 }
 
 const style = StyleSheet.create({
   body: {
-    backgroundColor: "#f5f5f5"
+    backgroundColor: '#f5f5f5',
   },
   item: {
     padding: 16,
-    backgroundColor: "#f5f5f5"
+    backgroundColor: '#f5f5f5',
   },
   itemText: {
-    color: "#212121",
-    fontSize: 18
+    color: '#212121',
+    fontSize: 18,
   },
   sectionHeader: {
-    color: "#757575",
-    backgroundColor: "#f5f5f5",
+    color: '#757575',
+    backgroundColor: '#f5f5f5',
     padding: 16,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "#bdbdbd"
+    borderTopColor: '#bdbdbd',
   },
   sectionFooter: {
-    height: 16
-  }
+    height: 16,
+  },
 });
 
 const ListItem = withNavigation(({ title, route, navigation }) => (
@@ -65,18 +64,18 @@ function renderSectionFooter() {
 function mapScreens(components) {
   return Object.keys(components).map(key => ({
     key,
-    title: components[key].title
+    title: components[key].title,
   }));
 }
 
 class Samples extends Component {
-  static navigationOptions = { title: "MapGIS Mobile示例" };
+  static navigationOptions = { title: 'MapGIS Mobile示例' };
 
   sections = [
-    { title: "地图显示", data: mapScreens(MapDisplay) },
-    { title: "地图控制", data: mapScreens(MapControl) },
-    { title: "地图覆盖物", data: mapScreens(MapGraphic) },
-    { title: "要素查询", data: mapScreens(MapFeatureQuery) },
+    { title: '地图显示', data: mapScreens(MapDisplay) },
+    { title: '地图控制', data: mapScreens(MapControl) },
+    { title: '地图覆盖物', data: mapScreens(MapGraphic) },
+    { title: '要素查询', data: mapScreens(MapFeatureQuery) },
   ];
 
   init = async () => {
