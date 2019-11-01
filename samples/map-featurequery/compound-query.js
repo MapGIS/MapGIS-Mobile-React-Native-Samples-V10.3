@@ -3,16 +3,11 @@ import {
   Alert,
   View,
   ToastAndroid,
-<<<<<<< HEAD
-  Button,
-  StyleSheet,
-=======
   TouchableOpacity,
   Text,
   Button,
   StyleSheet,
   TextInput,
->>>>>>> 23b17fd1f7e2657202536e45426fcbe9b8e226c6
   DeviceEventEmitter,
 } from 'react-native';
 import styles from '../styles';
@@ -22,10 +17,6 @@ import {
   Rect,
   MGMapView,
   Dot,
-<<<<<<< HEAD
-=======
-  PointF,
->>>>>>> 23b17fd1f7e2657202536e45426fcbe9b8e226c6
   GraphicPoint,
   QueryBound,
   FeatureQuery,

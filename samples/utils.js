@@ -30,12 +30,11 @@ export const SYSTEM_LIB_PATH2 = INITIALIZE_PATH + '/AnotherSystemlib/';
  */
 export const MAPX_FILE_PATH = INITIALIZE_PATH + '/Map/MapShow/WuHan/WuHan.mapx';
 export const DB_FILE_PATH = INITIALIZE_PATH + '/Map/MapShow/WuHan/武汉MKT.mgdb';
-<<<<<<< HEAD
-export const DB_CREATE_FILE_PATH = INITIALIZE_PATH + "/Map/MapShow/RNCreateDb0927/RNTest0927.mgdb";
+export const DB_CREATE_FILE_PATH =
+  INITIALIZE_PATH + '/Map/MapShow/RNCreateDb0927/RNTest0927.mgdb';
 
-export const DB_UPDATE_FILE_PATH = INITIALIZE_PATH + "/Map/IncrementalUpdate/change.mudb";
-=======
->>>>>>> 23b17fd1f7e2657202536e45426fcbe9b8e226c6
+export const DB_UPDATE_FILE_PATH =
+  INITIALIZE_PATH + '/Map/IncrementalUpdate/change.mudb';
 
 /**
  * 离线瓦片：
@@ -172,15 +171,13 @@ export const POI_FILE_PATH = INITIALIZE_PATH + '/POI/wuhanpoi.db';
  */
 export const MAPX_WHDLW =
   INITIALIZE_PATH + '/Map/MapShow/WuHanRoadNetwork/whdlw.mapx';
-<<<<<<< HEAD
 
 //纹理线图标
-export const IMG_FILE_PATH = INITIALIZE_PATH + "/Map/Image/ico_texture_line.png";
+export const IMG_FILE_PATH =
+  INITIALIZE_PATH + '/Map/Image/ico_texture_line.png';
 
 //标注显示图标
-export const ANN_FILE_PATH = INITIALIZE_PATH + "/Map/Image/location.png"; 
-=======
->>>>>>> 23b17fd1f7e2657202536e45426fcbe9b8e226c6
+export const ANN_FILE_PATH = INITIALIZE_PATH + '/Map/Image/location.png';
 
 export function mapComponents(prefix, screens) {
   return Object.keys(screens).reduce((result, name) => {
