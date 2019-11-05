@@ -34,10 +34,6 @@ export default class MapGraphicPolyline extends Component {
     dotArray.push(dot3);
     var graphicPolylinModule = new GraphicPolylin();
     this.graphicPolylin = await graphicPolylinModule.createObj();
-    console.log(
-      '获取graphicPolylin的ID:' + this.graphicPolylin._MGGraphicPolylinId
-    );
-    // await this.graphicPolylin.setColor("rgba(0, 0, 0, 1)");
     await this.graphicPolylin.setLineWidth(10);
     await this.graphicPolylin.setPoints(dotArray);
 

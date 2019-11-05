@@ -12,7 +12,6 @@ import {
   Rect,
   MGMapView,
   Dot,
-  PointF,
   QueryBound,
   FeatureQuery,
   GraphicPolygon,
@@ -96,9 +95,6 @@ export default class MapPolygonQuery extends Component {
     let queryBound = await qu.createObjByPoints(this.state.points);
 
     let map = await this.mapView.getMap();
-    //let mapLayer = await map.getLayer(3);
-    //console.log("mapLayer.getName:" + await mapLayer.getName());
-
     let vectorLayer = null;
     //获取查询图层对象（指定区图层）
     for (let i = 0; i < (await map.getLayerCount()); i++) {
@@ -110,44 +106,29 @@ export default class MapPolygonQuery extends Component {
     }
     if (vectorLayer != null) {
       let featureQuery = new FeatureQuery();
-      let query = await featureQuery.createObjByProperty(vectorLayer);
+      let query = await featureQuery.createObjByVectorLayer(vectorLayer);
       await query.setQueryBound(queryBound);
       await query.setPageSize(10000);
       await query.setSpatialFilterRelationship(1);
       let featurePagedResult = await query.query();
-
-      console.log(
-        'featurePagedResult:' +
-          (await featurePagedResult._MGFeaturePagedResultId)
-      );
-      let pagecount = await featurePagedResult.getPageCount();
       let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
       let graphicArry = [];
       let featureLst = await featurePagedResult.getPage(1);
       for (let i = 0; i < featureLst.length; i++) {
         let feature = await featureLst[i];
-        let attributes = await feature.getAttributes();
-        console.log('getAttributes:' + attributes);
-        console.log('_MGFeatureId:' + feature._MGFeatureId);
-
         let graphicList = await feature.toGraphics(true);
         for (let j = 0; j < graphicList.length; j++) {
-          console.log('_MGGraphicId:' + graphicList[j]._MGGraphicId);
           graphicArry.push(graphicList[j]);
         }
       }
-      console.log(' graphicArry.length:' + graphicArry.length);
-      let graphicsOverlay = await this.mapView.getGraphicsOverlay();
-      await graphicsOverlay.addGraphics(graphicArry);
+      this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
+      await this.graphicsOverlay.addGraphics(graphicArry);
       await this.mapView.refresh();
       ToastAndroid.show(
-        '查询结果总数为：' + getTotalFeatureCount + '，请在console控制台查看！',
+        '查询结果总数为：' + getTotalFeatureCount,
         ToastAndroid.SHORT
       );
-      console.log('pagecount:' + pagecount);
-      console.log('getTotalFeatureCount:' + getTotalFeatureCount);
-      console.log('featureLst:' + featureLst.length);
     }
   };
 

@@ -3,11 +3,8 @@ import {
   Alert,
   View,
   ToastAndroid,
-  TouchableOpacity,
-  Text,
   Button,
   StyleSheet,
-  TextInput,
   DeviceEventEmitter,
 } from 'react-native';
 import styles from '../styles';
@@ -172,10 +169,9 @@ export default class MapCompoundQuery extends Component {
 
     let map = await this.mapView.getMap();
     var mapLayer = await map.getLayer(11);
-    console.log('mapLayer.getName:' + (await mapLayer.getName()));
     if (mapLayer != null) {
       let featureQuery = new FeatureQuery();
-      let query = await featureQuery.createObjByProperty(mapLayer);
+      let query = await featureQuery.createObjByVectorLayer(mapLayer);
       await query.setWhereClause(condition);
       await query.setQueryBound(queryBound);
       await query.setPageSize(20);
@@ -186,23 +182,12 @@ export default class MapCompoundQuery extends Component {
       let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
       let strFieldName = 'Name';
-
       let featureName = '';
       let featureLst = await featurePagedResult.getPage(1);
       for (var j = 0; j < featureLst.length; j++) {
         let feature = await featureLst[j];
         let attributes = await feature.getAttributes();
-        console.log(
-          'getAttributes:' +
-            attributes +
-            '--featureLst.length' +
-            featureLst.length
-        );
         var jsonObj = JSON.parse(attributes);
-        console.log(
-          'getAttributes:-jsonObj[strFieldName]---' + jsonObj[strFieldName]
-        );
-
         featureName = jsonObj[strFieldName];
 
         //获取要素的几何信息（默认查询点要素）
@@ -235,9 +220,6 @@ export default class MapCompoundQuery extends Component {
         '查询结果总数为：' + getTotalFeatureCount,
         ToastAndroid.LONG
       );
-      console.log('pagecount:' + pagecount);
-      console.log('getTotalFeatureCount:' + getTotalFeatureCount);
-      console.log('featureLst:' + featureLst.length);
     }
   };
 

@@ -25,9 +25,6 @@ export default class MapGraphicPoint extends Component {
 
     var graphicCircleModule = new GraphicCircle();
     this.graphicCircle = await graphicCircleModule.createObj();
-    console.log(
-      'graphicMultiPointModule:' + this.graphicCircle._MGGraphicCircleId
-    );
     await this.graphicCircle.setColor('rgba(255, 255, 255, 180)');
     await this.graphicCircle.setCenterAndRadius(dot, 10000);
     await this.graphicCircle.setBorderlineColor('rgba(100, 200, 0, 122)');

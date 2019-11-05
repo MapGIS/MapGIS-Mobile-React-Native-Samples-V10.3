@@ -37,9 +37,6 @@ export default class MapGraphicPolygon extends Component {
     dotArray.push(dot3);
     var graphicPolygonModule = new GraphicPolygon();
     this.graphicPolygon = await graphicPolygonModule.createObj();
-    console.log(
-      '获取graphicPolygon的ID:' + this.graphicPolygon._MGGraphicPolygonId
-    );
     await this.graphicPolygon.setColor('rgba(0, 0, 0, 180)');
     await this.graphicPolygon.setBorderlineColor('rgba(100, 200, 0, 90)');
     await this.graphicPolygon.setBorderlineWidth(10);

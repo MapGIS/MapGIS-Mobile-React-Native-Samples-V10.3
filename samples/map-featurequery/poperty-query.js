@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   ToastAndroid,
-  TouchableOpacity,
   Text,
   Button,
   StyleSheet,
@@ -18,14 +17,12 @@ import {
   MGMapView,
   Dot,
   PointF,
-  QueryBound,
   FeatureQuery,
   AnnotationView,
   Image,
   Annotation,
 } from '@mapgis/mobile-react-native';
 
-var data = [];
 /**
  * @content 属性查询
  * @author fjl 2019-7-25 下午2:52:36
@@ -79,12 +76,6 @@ export default class MapPopertyQuery extends Component {
           this.mapView,
           annotation
         );
-        // 设置callout的标题颜色
-        //await annotationView.getCalloutTitleTextView().setTextColor(Color.BLUE);
-        //await annotationView.getCalloutDescriptionTextView().setTextColor(Color.BLACK);
-
-        //await annotationView.getCalloutTitleTextView().setTextColor("rgba(255, 255, 255, 180)");
-        //await annotationView.getCalloutDescriptionTextView().setTextColor("rgba(255, 255, 255, 180)");
         // 设置callout相对于标注或视图点的偏移量
         let pointFModule = new PointF();
         let pointf = await pointFModule.createObj(0, 15);
@@ -106,7 +97,7 @@ export default class MapPopertyQuery extends Component {
     await annotationsOverlay.removeAllAnnotations();
 
     let condition = '';
-    if (this.state.text.length == 0) {
+    if (this.state.text.length === 0) {
       ToastAndroid.show('查询关键字默认为"公园"', ToastAndroid.SHORT);
       condition = "Name like '%公园%'";
     } else {
@@ -124,14 +115,13 @@ export default class MapPopertyQuery extends Component {
     }
     if (vectorLayer != null) {
       let featureQuery = new FeatureQuery();
-      let query = await featureQuery.createObjByProperty(vectorLayer);
+      let query = await featureQuery.createObjByVectorLayer(vectorLayer);
       await query.setWhereClause(condition);
       await query.setPageSize(10000);
       await query.setSpatialFilterRelationship(1);
       await query.setReturnGeometry(true);
 
       let featurePagedResult = await query.query();
-      let pagecount = await featurePagedResult.getPageCount();
       let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
       let fields = await featurePagedResult.getFields();
@@ -153,16 +143,16 @@ export default class MapPopertyQuery extends Component {
       let featureName = '';
       let featureLst = await featurePagedResult.getPage(1);
       for (var j = 0; j < featureLst.length; j++) {
-        let feature = await featureLst[j];
+        var feature = await featureLst[j];
         let attributes = await feature.getAttributes();
         // 显示获取到的属性信息
         if (IsExistName == true) {
           //结果要素名称
           var jsonObj = JSON.parse(attributes);
           featureName = jsonObj[strFieldName];
-          //结果列表数组
+          // 结果列表数组
           this.setState({
-            qryresult: this.state.qryresult.concat([featureName]),
+            qryresult: this.state.qryresult.concat([{ name: featureName }]),
           });
         }
         //获取要素的几何信息（默认查询点要素）
@@ -180,8 +170,8 @@ export default class MapPopertyQuery extends Component {
         let point = await pointModule.createObj(dotX, dotY);
         let image = new Image();
         let bmp = await image.createObjByLocalPath(ANN_FILE_PATH);
-        let AnnotationModule = new Annotation();
-        let annotation = await AnnotationModule.createObj(
+        let annotationModule = new Annotation();
+        let annotation = await annotationModule.createObj(
           featureName,
           featureName,
           point,
@@ -199,8 +189,8 @@ export default class MapPopertyQuery extends Component {
   };
 
   //item.item中第一个是变量,第二个item表示项
-  renderItem = item => (
-    <View style={style.item}>{<Text style={style.txt}>{item.item}</Text>}</View>
+  renderItem = ({ item }) => (
+    <View style={style.item}>{<Text style={style.txt}>{item.name}</Text>}</View>
   );
 
   _separator = () => {

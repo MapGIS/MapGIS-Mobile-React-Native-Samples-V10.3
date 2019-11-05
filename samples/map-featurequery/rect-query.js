@@ -12,11 +12,9 @@ import {
   Rect,
   MGMapView,
   Dot,
-  PointF,
   QueryBound,
   FeatureQuery,
   GraphicPolygon,
-  SpaAnalysis,
 } from '@mapgis/mobile-react-native';
 
 /**
@@ -57,11 +55,8 @@ export default class MapRectQuery extends Component {
     dotArray.push(dot3);
     dotArray.push(dot4);
     dotArray.push(dot1);
-    var graphicPolygonModule = new GraphicPolygon();
+    let graphicPolygonModule = new GraphicPolygon();
     this.graphicPolygon = await graphicPolygonModule.createObj();
-    console.log(
-      '获取graphicPolygon的ID:' + this.graphicPolygon._MGGraphicPolygonId
-    );
     await this.graphicPolygon.setColor('rgba(50, 50, 50, 50)');
     await this.graphicPolygon.setBorderlineColor('rgba(20, 255, 0, 10)');
     await this.graphicPolygon.setPointSize(10);
@@ -91,80 +86,43 @@ export default class MapRectQuery extends Component {
   }
 
   _featureQuery = async () => {
-    var qu = new QueryBound();
-    var queryBound = await qu.createObjByRect(this.state.qryRect);
+    let qu = new QueryBound();
+    let queryBound = await qu.createObjByRect(this.state.qryRect);
 
-    console.log('queryBoundid:' + queryBound._MGQueryBoundId);
-
-    var map = await this.mapView.getMap();
-    //var mapLayer = await map.getLayer(3);
-    //console.log("mapLayer.getName:" + await mapLayer.getName());
+    let map = await this.mapView.getMap();
     let vectorLayer = null;
     //获取查询图层对象（指定区图层）
     for (let i = 0; i < (await map.getLayerCount()); i++) {
       let mapLayer = await map.getLayer(i);
-      if ((await mapLayer.getName()) == '水域') {
+      if ((await mapLayer.getName()) === '水域') {
         vectorLayer = mapLayer;
         break;
       }
     }
     if (vectorLayer != null) {
-      var featureQuery = new FeatureQuery();
-      var query = await featureQuery.createObjByProperty(vectorLayer);
+      let featureQuery = new FeatureQuery();
+      let query = await featureQuery.createObjByVectorLayer(vectorLayer);
       await query.setPageSize(10000);
       await query.setSpatialFilterRelationship(1);
       await query.setQueryBound(queryBound);
-      var featurePagedResult = await query.query();
-
-      console.log(
-        'featurePagedResult:' +
-          (await featurePagedResult._MGFeaturePagedResultId)
-      );
-      var pagecount = await featurePagedResult.getPageCount();
-      var getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
-
-      var graphicArry = [];
-      var featureLst = await featurePagedResult.getPage(1);
-      for (var i = 0; i < featureLst.length; i++) {
-        var feature = await featureLst[i];
-        var attributes = await feature.getAttributes();
-        console.log('getAttributes:' + attributes);
-        console.log('_MGFeatureId:' + feature._MGFeatureId);
-
-        var graphicList = await feature.toGraphics();
-        for (var j = 0; j < graphicList.length; j++) {
-          console.log('_MGGraphicId:' + graphicList[j]._MGGraphicId);
+      let featurePagedResult = await query.query();
+      let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
+      let graphicArry = [];
+      let featureLst = await featurePagedResult.getPage(1);
+      for (let i = 0; i < featureLst.length; i++) {
+        let feature = await featureLst[i];
+        let graphicList = await feature.toGraphics();
+        for (let j = 0; j < graphicList.length; j++) {
           graphicArry.push(graphicList[j]);
         }
-
-        //     var geoPolygonObj = new GeoPolygon();
-        //     var geoPolygon = await geoPolygonObj.createObj();
-
-        //     let dotsObj = new Dots();
-        //     let dots = await dotsObj.createObj();
-
-        //     var geometry = await feature.getGeometry();
-        //     var spaAnalysisObj = new SpaAnalysis();
-        //     var spaAnalysis = await spaAnalysisObj.createObj();
-        //     await spaAnalysis.setTolerance(0.000000001);
-        //     var geometryClip = await spaAnalysis.clip(geometry, geoPolygon);
-        //    if (geometryClip != null)
-        //    {
-
-        //    }
       }
-
-      console.log(' graphicArry.length:' + graphicArry.length);
       this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
       await this.graphicsOverlay.addGraphics(graphicArry);
       await this.mapView.refresh();
       ToastAndroid.show(
-        '查询结果总数为：' + getTotalFeatureCount + '，请在console控制台查看！',
+        '查询结果总数为：' + getTotalFeatureCount,
         ToastAndroid.SHORT
       );
-      console.log('pagecount:' + pagecount);
-      console.log('getTotalFeatureCount:' + getTotalFeatureCount);
-      console.log('featureLst:' + featureLst.length);
     }
   };
 

@@ -35,17 +35,12 @@ export default class MapGraphicPoint extends Component {
     dotArray.push(dot3);
     var graphicMultiPointModule = new GraphicMultiPoint();
     this.graphicMultiPoint = await graphicMultiPointModule.createObj();
-    console.log(
-      'graphicMultiPointModule:' + this.graphicMultiPoint._MGGraphicMultiPointId
-    );
     await this.graphicMultiPoint.setColor('rgba(100, 200, 0, 12)');
     await this.graphicMultiPoint.setPointSize(20);
     await this.graphicMultiPoint.setPoints(dotArray);
 
     this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
     await this.graphicsOverlay.addGraphic(this.graphicMultiPoint);
-
-    alert('this.graphicStippleLine.getLineWidth(): ');
   };
 
   render() {
