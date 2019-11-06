@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  DeviceEventEmitter,
-} from 'react-native';
+import { View, Text, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
 import { IMG_FILE_PATH } from '../utils';
@@ -16,9 +9,7 @@ import {
   MGMapView,
   Dot,
   GraphicStippleLine,
-  GraphicMultiPoint,
   GraphicsOverlay,
-  GraphicsOverlays,
   GraphicPoint,
   GraphicPolylin,
   Image,
@@ -28,7 +19,6 @@ import {
   GraphicCircle,
   GraphicPolygon,
 } from '@mapgis/mobile-react-native';
-import { switchCase } from '@babel/types';
 
 export default class MapGraphicInterActive extends Component {
   static navigationOptions = { title: '交互绘制几何图形' };
@@ -47,7 +37,7 @@ export default class MapGraphicInterActive extends Component {
     this.onSelect = this.onSelect.bind(this);
   }
 
-  onSelect(index, value) {
+  onSelect(index) {
     this.setState({
       isChecked: true,
       drawType: index,
@@ -264,12 +254,12 @@ export default class MapGraphicInterActive extends Component {
 
     DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Start',
-      async res => {}
+      async () => {}
     );
 
     DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Fail',
-      async res => {}
+      async () => {}
     );
 
     DeviceEventEmitter.addListener(
@@ -342,7 +332,6 @@ export default class MapGraphicInterActive extends Component {
   clearGraphic = async () => {
     let graphicsOverlay = await this.mapView.getGraphicsOverlay();
     await graphicsOverlay.removeAllGraphics();
-    //await this.mapView.getGraphicsOverlay().removeAllGraphics();
     await this.pointGraphicsOverlay.removeAllGraphics();
     await this.circleGraphicsOverlay.removeAllGraphics();
     await this.polylinGraphicsOverlay.removeAllGraphics();
@@ -437,30 +426,35 @@ export default class MapGraphicInterActive extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RadioGroup onSelect={(index, value) => this.onSelect(index, value)}>
-          <RadioButton value={'item1'}>
-            <Text>画点</Text>
+        <RadioGroup
+          style={[styles.controls, { height: 100 }]}
+          color="#FFF"
+          activeColor="#f5533d"
+          onSelect={index => this.onSelect(index)}
+        >
+          <RadioButton style={styles.control} value={'item1'}>
+            <Text style={styles.label}>点</Text>
           </RadioButton>
-          <RadioButton value={'item2'}>
-            <Text>画圆</Text>
+          <RadioButton style={styles.control} value={'item2'}>
+            <Text style={styles.label}>圆</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>画线</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>线</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>画虚线</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>虚线</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>画纹理线</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>纹理线</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>画多边形</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>多边形</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>文本</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>文本</Text>
           </RadioButton>
-          <RadioButton value={'item3'}>
-            <Text>图像</Text>
+          <RadioButton style={styles.control} value={'item3'}>
+            <Text style={styles.label}>图像</Text>
           </RadioButton>
         </RadioGroup>
         <MGMapView
@@ -468,7 +462,7 @@ export default class MapGraphicInterActive extends Component {
           onGetInstance={this.onGetInstance}
           style={styles.mapView}
         />
-        <View style={style.buttons}>
+        <View style={[styles.buttons, { bottom: 80 }]}>
           <View style={styles.button}>
             <TouchableOpacity onPress={this.startGraphic}>
               <Text style={styles.text}>开启绘制</Text>
@@ -489,19 +483,3 @@ export default class MapGraphicInterActive extends Component {
     );
   }
 }
-
-const style = StyleSheet.create({
-  form: {
-    padding: 15,
-  },
-  buttons: {
-    width: Dimensions.get('window').width,
-    position: 'relative',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    marginTop: 5,
-    backgroundColor: 'rgba(178,178,178,0.5)',
-    opacity: 1,
-  },
-});

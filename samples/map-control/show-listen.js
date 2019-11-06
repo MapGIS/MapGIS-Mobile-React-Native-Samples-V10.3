@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import {
   FlatList,
@@ -38,12 +39,7 @@ export default class MapShowListen extends Component {
 
   openMap = async () => {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
-
     await this.mapView.registerZoomChangedListener();
-    // await this.mapView.registerRotateChangedListener();
-    // await this.mapView.registerCenterChangedListener();
-    // await this.mapView.registerRefreshListener();
-    // await this.mapView.registerAnimationListener();
   };
 
   componentDidMount() {
@@ -58,6 +54,7 @@ export default class MapShowListen extends Component {
               time: new Date().toLocaleString(),
               data: JSON.stringify(res, null, 2),
             },
+            ...this.state.logs,
           ],
         });
       }
@@ -74,6 +71,7 @@ export default class MapShowListen extends Component {
               time: new Date().toLocaleString(),
               data: JSON.stringify(res, null, 2),
             },
+            ...this.state.logs,
           ],
         });
       }
@@ -90,7 +88,7 @@ export default class MapShowListen extends Component {
               time: new Date().toLocaleString(),
               data: JSON.stringify(res, null, 2),
             },
-            // ...this.state.logs
+            ...this.state.logs,
           ],
         });
       }
@@ -107,6 +105,7 @@ export default class MapShowListen extends Component {
               time: new Date().toLocaleString(),
               data: JSON.stringify(res, null, 2),
             },
+            ...this.state.logs,
           ],
         });
       }
@@ -123,50 +122,34 @@ export default class MapShowListen extends Component {
               time: new Date().toLocaleString(),
               data: JSON.stringify(res, null, 2),
             },
+            ...this.state.logs,
           ],
         });
       }
     );
   }
 
-  logger(event) {
-    return data => {
-      this.setState({
-        logs: [
-          {
-            event,
-            key: Math.random().toString(),
-            time: new Date().toLocaleString(),
-            data: JSON.stringify(data, null, 2),
-          },
-          ...this.state.logs,
-        ],
-      });
-    };
-  }
-
   _renderItem = ({ item }) => (
-    <View style={style.item}>
-      <View style={style.itemHeader}>
-        <Text style={style.label}>{item.Type}</Text>
-        <Text style={style.time}>{item.time}</Text>
-        <Text style={style.label}>{item.event}</Text>
+    <View style={styles.logItem}>
+      <View style={styles.logItemHeader}>
+        <Text style={styles.logLabel}>{item.Type}</Text>
+        <Text style={styles.logTime}>{item.time}</Text>
+        <Text style={styles.logLabel}>{item.event}</Text>
       </View>
-      {item.data !== '{}' && <Text style={style.data}>{item.data}</Text>}
+      {item.data !== '{}' && <Text style={styles.logData}>{item.data}</Text>}
     </View>
   );
 
   render() {
     return (
       <View style={styles.container}>
-        {/*<View style={style.container}>*/}
         <View style={styles.controls}>
           <View style={styles.control}>
             <Text style={styles.label}>级别变化</Text>
             <Switch
               onValueChange={async zoomChangeListen => {
                 this.setState({ zoomChangeListen });
-                if (zoomChangeListen == true) {
+                if (zoomChangeListen === true) {
                   await this.mapView.registerZoomChangedListener();
                 } else {
                   await this.mapView.unregisterZoomChangedListener();
@@ -180,7 +163,7 @@ export default class MapShowListen extends Component {
             <Switch
               onValueChange={async angelChangeListen => {
                 this.setState({ angelChangeListen });
-                if (angelChangeListen == true) {
+                if (angelChangeListen === true) {
                   await this.mapView.registerRotateChangedListener();
                 } else {
                   await this.mapView.unregisterRotateChangedListener();
@@ -195,7 +178,7 @@ export default class MapShowListen extends Component {
             <Switch
               onValueChange={async centerchangelisten => {
                 this.setState({ centerchangelisten });
-                if (centerchangelisten == true) {
+                if (centerchangelisten === true) {
                   await this.mapView.registerCenterChangedListener();
                 } else {
                   await this.mapView.unregisterCenterChangedListener();
@@ -210,7 +193,7 @@ export default class MapShowListen extends Component {
             <Switch
               onValueChange={async animationchangelisten => {
                 this.setState({ animationchangelisten });
-                if (animationchangelisten == true) {
+                if (animationchangelisten === true) {
                   await this.mapView.registerAnimationListener();
                 } else {
                   await this.mapView.unregisterAnimationListener();
@@ -221,11 +204,11 @@ export default class MapShowListen extends Component {
             />
           </View>
           <View style={styles.control}>
-            <Text style={styles.label}> 刷新监听</Text>
+            <Text style={styles.label}>刷新监听</Text>
             <Switch
               onValueChange={async refreshchangelisten => {
                 this.setState({ refreshchangelisten });
-                if (refreshchangelisten == true) {
+                if (refreshchangelisten === true) {
                   await this.mapView.registerRefreshListener();
                 } else {
                   await this.mapView.unregisterRefreshListener();
@@ -242,7 +225,7 @@ export default class MapShowListen extends Component {
           style={styles.mapView}
         />
         <FlatList
-          style={style.logs}
+          style={styles.logs}
           data={this.state.logs}
           renderItem={this._renderItem}
         />
@@ -250,41 +233,3 @@ export default class MapShowListen extends Component {
     );
   }
 }
-
-const style = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    position: 'absolute',
-    justifyContent: 'space-between',
-  },
-  full: {
-    flex: 1,
-  },
-  logs: {
-    flex: 1,
-    elevation: 8,
-    backgroundColor: '#292c36',
-  },
-  item: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  itemHeader: {
-    flexDirection: 'row',
-  },
-  time: {
-    color: '#757575',
-    fontSize: 12,
-  },
-  label: {
-    marginLeft: 8,
-    color: '#f5533d',
-    fontSize: 12,
-  },
-  data: {
-    color: '#eee',
-    fontSize: 12,
-  },
-});

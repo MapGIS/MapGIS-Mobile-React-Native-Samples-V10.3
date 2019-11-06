@@ -11,6 +11,7 @@ export default StyleSheet.create({
   controls: {
     height: 72,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     elevation: 4,
     justifyContent: 'space-between',
     paddingLeft: 20,
@@ -25,25 +26,11 @@ export default StyleSheet.create({
     color: '#fff',
     marginTop: 4,
   },
-
-  columnControls: {
-    flexDirection: 'column',
-    position: 'absolute',
-    elevation: 4,
-    justifyContent: 'space-between',
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: 'rgba(50, 50, 50, 0.5)',
-  },
-  columnControl: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  columnLabel: {
-    color: '#000',
+  description: {
+    color: '#888',
     marginTop: 4,
+    fontSize: 12,
   },
-
   buttons: {
     width: Dimensions.get('window').width,
     position: 'absolute',
@@ -62,5 +49,32 @@ export default StyleSheet.create({
   text: {
     fontSize: 16,
     color: '#fff',
+  },
+  logs: {
+    flex: 1,
+    elevation: 8,
+    backgroundColor: '#292c36',
+  },
+  logItem: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  logItemHeader: {
+    flexDirection: 'row',
+  },
+  logTime: {
+    color: '#757575',
+    fontSize: 12,
+  },
+  logLabel: {
+    marginLeft: 8,
+    color: '#f5533d',
+    fontSize: 12,
+  },
+  logData: {
+    color: '#eee',
+    fontSize: 12,
   },
 });
