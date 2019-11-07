@@ -106,11 +106,7 @@ export default class MapGraphicInterActive extends Component {
                 this.state.points[0],
                 radius
               );
-<<<<<<< HEAD
-              await graphicCircle.setColor('rgba( 255, 0, 0,70)');
-=======
               await graphicCircle.setColor('rgba( 255, 0, 0, 70)');
->>>>>>> 35c5fa73c8295b0a016125668f47cb74a6334f0b
               await graphicCircle.setBorderlineWidth(5);
               await this.circleGraphicsOverlay.addGraphic(graphicCircle);
             }
@@ -126,11 +122,7 @@ export default class MapGraphicInterActive extends Component {
               //构造线
               let graphicPolylinModule = new GraphicPolylin();
               this.graphicPolylin = await graphicPolylinModule.createObj();
-<<<<<<< HEAD
-              await this.graphicPolylin.setColor('rgba( 0, 0, 255,255)');
-=======
               await this.graphicPolylin.setColor('rgba( 0, 0, 255, 255)');
->>>>>>> 35c5fa73c8295b0a016125668f47cb74a6334f0b
               await this.graphicPolylin.setLineWidth(10);
               await this.polylinGraphicsOverlay.addGraphic(this.graphicPolylin);
               await this.graphicPolylin.appendPoint(dot);
@@ -147,10 +139,7 @@ export default class MapGraphicInterActive extends Component {
             }
             this.setState({ lineDotCnt: ++this.state.lineDotCnt });
             await graphicPoint.setSize(8);
-<<<<<<< HEAD
-=======
             await graphicPoint.setColor('rgba(255, 0, 0, 255)');
->>>>>>> 35c5fa73c8295b0a016125668f47cb74a6334f0b
             let graphicsOverlayStippleLine = await this.mapView.getGraphicsOverlay();
             await graphicsOverlayStippleLine.addGraphic(graphicPoint);
 
@@ -174,11 +163,7 @@ export default class MapGraphicInterActive extends Component {
             break;
           case 4: //纹理线
             await graphicPoint.setSize(4);
-<<<<<<< HEAD
-            await graphicPoint.setColor('rgba(255, 0, 0, 255)');
-=======
             await graphicPoint.setColor('rgba(0, 200, 0, 128)');
->>>>>>> 35c5fa73c8295b0a016125668f47cb74a6334f0b
             let graphicsOverlaytextureLin = await this.mapView.getGraphicsOverlay();
             await graphicsOverlaytextureLin.addGraphic(graphicPoint);
 
@@ -212,12 +197,9 @@ export default class MapGraphicInterActive extends Component {
               let graphicPolygonModule = new GraphicPolygon();
               this.graphicPolygon = await graphicPolygonModule.createObj();
               await this.graphicPolygon.setColor('rgba(0, 139, 0, 100)');
-<<<<<<< HEAD
-=======
               await this.graphicPolygon.setBorderlineColor(
                 'rgba(100, 200, 0, 90)'
               );
->>>>>>> 35c5fa73c8295b0a016125668f47cb74a6334f0b
               await this.polygonGraphicsOverlay.addGraphic(this.graphicPolygon);
               this.setState({ dotLst: [dot], isFirstPoint: false });
             } else {
