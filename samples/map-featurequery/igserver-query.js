@@ -30,7 +30,7 @@ export default class MapIGServerQuery extends Component {
   constructor() {
     super();
     this.state = {
-      qryresult: [],
+      result: [],
     };
   }
 
@@ -83,6 +83,7 @@ export default class MapIGServerQuery extends Component {
     let graphicArry = [];
     let strFieldName = 'Name';
     let strFieldAddress = 'Address';
+    let result = [];
     this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
     let featureLst = await featurePagedResult.getPage(1);
     for (let i = 0; i < featureLst.length; i++) {
@@ -91,12 +92,8 @@ export default class MapIGServerQuery extends Component {
       let jsonObj = JSON.parse(attributes);
       let attrName = jsonObj[strFieldName];
       let attrAddr = jsonObj[strFieldAddress];
-      this.setState({
-        qryresult: this.state.qryresult.concat([{ name: attrName }]),
-      });
-      this.setState({
-        qryresult: this.state.qryresult.concat([{ name: attrAddr }]),
-      });
+      result.push({ name: attrName, key: i.toString() });
+      result.push({ name: attrAddr, key: (-i).toString() });
 
       let graphicList = await feature.toGraphics();
       for (let j = 0; j < graphicList.length; j++) {
@@ -125,6 +122,9 @@ export default class MapIGServerQuery extends Component {
         }
       }
     }
+
+    this.setState({ result });
+
     await this.graphicsOverlay.addGraphics(graphicArry);
     await this.mapView.refresh();
     ToastAndroid.show(
@@ -135,27 +135,20 @@ export default class MapIGServerQuery extends Component {
 
   //此处的item相当于listview中的一行中的一列的item,如果一列要显示几个信息在这个里面布局。(一行显示几个item，直接绑定每个item要显示的数据,构造的数据一个{}对应一个item--目前理解的每个item布局是一样)
   renderItem = ({ item }) => (
-    <View style={style.item}>
-      {<Text style={style.itemtxt}>{item.name}</Text>}
+    <View style={localStyles.item}>
+      {<Text style={localStyles.itemValue}>{item.name}</Text>}
     </View>
   );
 
   _separator = () => {
-    return (
-      <View
-        style={{
-          height: 2,
-          backgroundColor: 'gray',
-        }}
-      />
-    );
+    return <View style={{ height: 1, backgroundColor: 'black' }} />;
   };
 
   _header = () => {
     return (
-      <View style={style.itemHeader}>
-        <Text style={[style.headtxt, { backgroundColor: 'gray' }]}>名称</Text>
-        <Text style={[style.headtxt, { backgroundColor: 'gray' }]}>地址</Text>
+      <View style={localStyles.itemHeader}>
+        <Text style={localStyles.itemHeaderValue}>名称</Text>
+        <Text style={localStyles.itemHeaderValue}>地址</Text>
       </View>
     );
   };
@@ -176,9 +169,9 @@ export default class MapIGServerQuery extends Component {
           </View>
         </View>
         <FlatList
-          style={style.resultView}
+          style={localStyles.items}
           ListHeaderComponent={this._header}
-          data={this.state.qryresult}
+          data={this.state.result}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this._separator}
           numColumns={2}
@@ -187,37 +180,37 @@ export default class MapIGServerQuery extends Component {
     );
   }
 }
-const style = StyleSheet.create({
-  resultView: {
-    marginTop: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
+
+const localStyles = StyleSheet.create({
+  items: {
+    flex: 1,
+    backgroundColor: '#292c36',
   },
   item: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     flex: 1,
+  },
+  itemValue: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: 'white',
+    fontSize: 16,
   },
   itemHeader: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: 'row',
-    height: 20,
   },
-  name: {
-    marginLeft: 8,
-    color: '#f5533d',
-    fontSize: 12,
-  },
-  data: {
-    color: '#eee',
-    fontSize: 12,
-  },
-  itemtxt: {
+  itemHeaderValue: {
     textAlign: 'center',
     textAlignVertical: 'center',
-  },
-  headtxt: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: 'blue',
-    fontSize: 12,
     flex: 1,
+    color: 'rgba(245,83,61,0.8)',
+    fontSize: 16,
   },
 });

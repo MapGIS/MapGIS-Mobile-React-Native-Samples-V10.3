@@ -30,6 +30,7 @@ export default class MapGraphicPolyline extends Component {
     await this.graphicPolylin.setColor('rgba(0, 0, 255, 255)');
     await this.graphicPolylin.setLineWidth(10);
     await this.graphicPolylin.setPoints(dotArray);
+    await this.graphicPolylin.setColor('rgba(0, 0, 255, 255)');
 
     this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
     await this.graphicsOverlay.addGraphic(this.graphicPolylin);

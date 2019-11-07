@@ -17,13 +17,12 @@ export default class MapGraphicPolygon extends Component {
 
   openMap = async () => {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
-    let dotModule = new Dot();
-    let dotArray = [];
-    let intArr = [4];
-    let dot0 = await dotModule.createObj(12742678.48, 3620270.51);
-    let dot1 = await dotModule.createObj(12754184.19, 3595188.06);
-    let dot2 = await dotModule.createObj(12774664.36, 3611065.94);
-    let dot3 = await dotModule.createObj(12742678.48, 3620270.51);
+    var dotModule = new Dot();
+    var dotArray = [];
+    var dot0 = await dotModule.createObj(12742678.48, 3620270.51);
+    var dot1 = await dotModule.createObj(12754184.19, 3595188.06);
+    var dot2 = await dotModule.createObj(12774664.36, 3611065.94);
+    var dot3 = await dotModule.createObj(12742678.48, 3620270.51);
     dotArray.push(dot0);
     dotArray.push(dot1);
     dotArray.push(dot2);
@@ -31,7 +30,7 @@ export default class MapGraphicPolygon extends Component {
     let graphicPolygonModule = new GraphicPolygon();
     this.graphicPolygon = await graphicPolygonModule.createObj();
     await this.graphicPolygon.setColor('rgba(0, 0, 0, 180)');
-    await this.graphicPolygon.setBorderlineColor('rgba(100, 200, 0, 90)');
+    await this.graphicPolygon.setBorderlineColor('rgba(255, 153, 51, 255)');
     await this.graphicPolygon.setBorderlineWidth(10);
     await this.graphicPolygon.setPoints(dotArray, null);
 

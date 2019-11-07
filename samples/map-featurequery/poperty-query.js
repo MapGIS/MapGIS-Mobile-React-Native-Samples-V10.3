@@ -16,9 +16,7 @@ import {
   Rect,
   MGMapView,
   Dot,
-  PointF,
   FeatureQuery,
-  AnnotationView,
   Image,
   Annotation,
 } from '@mapgis/mobile-react-native';
@@ -33,7 +31,7 @@ export default class MapPopertyQuery extends Component {
   constructor() {
     super();
     this.state = {
-      qryresult: [],
+      result: [],
       text: '',
     };
   }
@@ -61,29 +59,7 @@ export default class MapPopertyQuery extends Component {
             3607262.942711
           );
           await this.mapView.zoomToRange(mapRange, false);
-          await this.mapView.registerAnnotationListener();
         }
-      }
-    );
-    DeviceEventEmitter.addListener(
-      'com.mapgis.RN.Mapview.AnnotationListenerA_ViewByAnn',
-      async res => {
-        let { AnnotationId } = res;
-        let annotation = new Annotation();
-        annotation._MGAnnotationId = AnnotationId;
-        let annotationViewModule = new AnnotationView();
-        let annotationView = await annotationViewModule.createObj(
-          this.mapView,
-          annotation
-        );
-        // 设置callout相对于标注或视图点的偏移量
-        let pointFModule = new PointF();
-        let pointf = await pointFModule.createObj(0, 15);
-        //await annotationView.setCalloutOffset(pointf);
-        //await annotationView.getCalloutDescriptionTextView().setSingleLine(false);
-        // 将annotationview平移到视图中心
-        // await annotationView.setPanToMapViewCenter(true);
-        return annotationView;
       }
     );
   }
@@ -141,26 +117,25 @@ export default class MapPopertyQuery extends Component {
         }
       }
       let featureName = '';
+      let result = [];
       let featureLst = await featurePagedResult.getPage(1);
       for (let j = 0; j < featureLst.length; j++) {
         let feature = await featureLst[j];
         let attributes = await feature.getAttributes();
         // 显示获取到的属性信息
-        if (IsExistName == true) {
+        if (IsExistName === true) {
           //结果要素名称
           let jsonObj = JSON.parse(attributes);
           featureName = jsonObj[strFieldName];
           // 结果列表数组
-          this.setState({
-            qryresult: this.state.qryresult.concat([{ name: featureName }]),
-          });
+          result.push({ name: featureName, key: j.toString() });
         }
         //获取要素的几何信息（默认查询点要素）
         let fGeometry = await feature.getGeometry();
         let featureType = await fGeometry.getType();
         let dotX = 0;
         let dotY = 0;
-        if (featureType == 1 || featureType == 2) {
+        if (featureType === 1 || featureType === 2) {
           let dots3D = await fGeometry.getDots();
           let dot = await dots3D.get(0);
           dotX = await dot.getX();
@@ -180,6 +155,9 @@ export default class MapPopertyQuery extends Component {
         annotation.setCanShowAnnotationView(true);
         await annotationsOverlay.addAnnotation(annotation);
       }
+
+      this.setState({ result });
+
       await this.mapView.refresh();
       ToastAndroid.show(
         '查询结果总数为：' + getTotalFeatureCount,
@@ -188,64 +166,51 @@ export default class MapPopertyQuery extends Component {
     }
   };
 
-  //item.item中第一个是变量,第二个item表示项
   renderItem = ({ item }) => (
-    <View style={style.item}>{<Text style={style.txt}>{item.name}</Text>}</View>
+    <View style={localStyles.item}>
+      {<Text style={localStyles.itemValue}>{item.name}</Text>}
+    </View>
   );
 
   _separator = () => {
-    return <View style={{ height: 2, backgroundColor: 'blue' }} />;
+    return <View style={{ height: 1, backgroundColor: 'black' }} />;
   };
 
   render() {
     return (
       <View style={styles.container}>
+        <View style={[styles.form, { flexDirection: 'row' }]}>
+          <TextInput
+            style={styles.input}
+            returnKeyType="search"
+            placeholder="查询四级POI点，请输入关键字"
+            placeholderTextColor="#9e9e9e"
+            selectionColor="rgba(245,83,61,0.8)"
+            onChangeText={text => this.setState({ text })}
+            onSubmitEditing={this.search}
+          />
+          <Button title="属性查询" onPress={this._featureQuery} />
+        </View>
         <MGMapView
           ref="mapView"
           onGetInstance={this.onGetInstance}
           style={styles.mapView}
         />
         <FlatList
-          style={style.resultView}
-          data={this.state.qryresult}
+          style={localStyles.items}
+          data={this.state.result}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this._separator}
         />
-        <View style={style.form}>
-          <TextInput
-            style={style.input}
-            returnKeyType="search"
-            placeholder="查询四级POI点，请输入关键字"
-            placeholderTextColor="#9e9e9e"
-            onChangeText={text => this.setState({ text })}
-            onSubmitEditing={this.search}
-          />
-          <Button title="属性查询" onPress={this._featureQuery} />
-        </View>
       </View>
     );
   }
 }
 
-const style = StyleSheet.create({
-  body: {
+const localStyles = StyleSheet.create({
+  items: {
     flex: 1,
     backgroundColor: '#292c36',
-  },
-  form: {
-    padding: 15,
-  },
-  mapView: {
-    flex: 1,
-  },
-  input: {
-    color: '#000',
-    fontSize: 16,
-    marginTop: 15,
-    // marginBottom: 15
-  },
-  resultView: {
-    marginTop: 15,
   },
   item: {
     paddingLeft: 15,
@@ -253,16 +218,9 @@ const style = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
   },
-  itemHeader: {
-    flexDirection: 'row',
-  },
-  name: {
+  itemValue: {
     marginLeft: 8,
-    color: '#f5533d',
-    fontSize: 12,
-  },
-  data: {
-    color: '#eee',
-    fontSize: 12,
+    color: 'white',
+    fontSize: 16,
   },
 });

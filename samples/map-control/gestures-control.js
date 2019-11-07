@@ -32,9 +32,10 @@ export default class MapGesturesControl extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.columnControls}>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}>放大（单指双击）</Text>
+        <View style={styles.controls}>
+          <View style={styles.control}>
+            <Text style={styles.label}>放大</Text>
+            <Text style={styles.description}>单指双击</Text>
             <Switch
               onValueChange={async doubleTapZooming => {
                 this.setState({ doubleTapZooming });
@@ -43,8 +44,9 @@ export default class MapGesturesControl extends Component {
               value={this.state.doubleTapZooming}
             />
           </View>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}>缩小（双指单击）</Text>
+          <View style={styles.control}>
+            <Text style={styles.label}>缩小</Text>
+            <Text style={styles.description}>双指单击</Text>
             <Switch
               onValueChange={async twoFingerTapZooming => {
                 this.setState({ twoFingerTapZooming });
@@ -54,8 +56,9 @@ export default class MapGesturesControl extends Component {
               value={this.state.twoFingerTapZooming}
             />
           </View>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}>自由缩放</Text>
+          <View style={styles.control}>
+            <Text style={styles.label}>缩放</Text>
+            <Text style={styles.description}>双指捏拉</Text>
             <Switch
               onValueChange={async mapZoomGesturesEnabled => {
                 this.setState({ mapZoomGesturesEnabled });
@@ -67,8 +70,9 @@ export default class MapGesturesControl extends Component {
               value={this.state.mapZoomGesturesEnabled}
             />
           </View>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}>滑动手势</Text>
+          <View style={styles.control}>
+            <Text style={styles.label}>滑动</Text>
+            <Text style={styles.description}>单指滑动</Text>
             <Switch
               onValueChange={async mapPanGesturesEnabled => {
                 this.setState({ mapPanGesturesEnabled });
@@ -80,8 +84,9 @@ export default class MapGesturesControl extends Component {
               value={this.state.mapPanGesturesEnabled}
             />
           </View>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}>倾斜（双指竖直下滑）</Text>
+          <View style={styles.control}>
+            <Text style={styles.label}>倾斜</Text>
+            <Text style={styles.description}>双指竖直滑动</Text>
             <Switch
               onValueChange={async mapSlopeGestures => {
                 this.setState({ mapSlopeGestures });
@@ -91,8 +96,9 @@ export default class MapGesturesControl extends Component {
               value={this.state.mapSlopeGestures}
             />
           </View>
-          <View style={styles.columnControl}>
-            <Text style={styles.columnLabel}> 双指旋转地图</Text>
+          <View style={styles.control}>
+            <Text style={styles.label}>旋转</Text>
+            <Text style={styles.description}>双指旋转</Text>
             <Switch
               onValueChange={async mpRotateGestures => {
                 this.setState({ mpRotateGestures });
