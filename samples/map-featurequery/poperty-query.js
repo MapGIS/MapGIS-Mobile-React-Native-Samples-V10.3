@@ -69,7 +69,7 @@ export default class MapPopertyQuery extends Component {
       'com.mapgis.RN.Mapview.AnnotationListenerA_ViewByAnn',
       async res => {
         let { AnnotationId } = res;
-        var annotation = new Annotation();
+        let annotation = new Annotation();
         annotation._MGAnnotationId = AnnotationId;
         let annotationViewModule = new AnnotationView();
         let annotationView = await annotationViewModule.createObj(
@@ -142,13 +142,13 @@ export default class MapPopertyQuery extends Component {
       }
       let featureName = '';
       let featureLst = await featurePagedResult.getPage(1);
-      for (var j = 0; j < featureLst.length; j++) {
-        var feature = await featureLst[j];
+      for (let j = 0; j < featureLst.length; j++) {
+        let feature = await featureLst[j];
         let attributes = await feature.getAttributes();
         // 显示获取到的属性信息
         if (IsExistName == true) {
           //结果要素名称
-          var jsonObj = JSON.parse(attributes);
+          let jsonObj = JSON.parse(attributes);
           featureName = jsonObj[strFieldName];
           // 结果列表数组
           this.setState({

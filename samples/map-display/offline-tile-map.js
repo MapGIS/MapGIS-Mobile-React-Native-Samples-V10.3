@@ -14,8 +14,8 @@ export default class OfflineTileMap extends Component {
   openMap = async () => {
     await this.mapView.loadFromFile(TILE_MAPX_PATH);
     //缩放地图到指定范围
-    var R = new Rect();
-    var mapRange = await R.createObj(
+    let R = new Rect();
+    let mapRange = await R.createObj(
       9447553.589026,
       113305.17237,
       14274321.311746,

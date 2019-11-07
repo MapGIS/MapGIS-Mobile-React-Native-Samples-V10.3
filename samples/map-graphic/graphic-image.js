@@ -4,13 +4,10 @@ import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
 import { IMG_FILE_PATH } from '../utils';
 import {
-  Rect,
   MGMapView,
   Dot,
-  PointF,
   Image,
   GraphicImage,
-  GraphicText,
 } from '@mapgis/mobile-react-native';
 
 export default class MapGraphicImage extends Component {
@@ -22,11 +19,11 @@ export default class MapGraphicImage extends Component {
 
   openMap = async () => {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
-    var dot = new Dot();
-    var center = await dot.createObj(12751000.589636726, 3568000.453292473);
-    var image = new Image();
-    var img = await image.createObjByLocalPath(IMG_FILE_PATH);
-    var gi = new GraphicImage();
+    let dot = new Dot();
+    let center = await dot.createObj(12751000.589636726, 3568000.453292473);
+    let image = new Image();
+    let img = await image.createObjByLocalPath(IMG_FILE_PATH);
+    let gi = new GraphicImage();
     this.graphicImage = await gi.createObj();
     await this.graphicImage.setImage(img);
     await this.graphicImage.setPoint(center);

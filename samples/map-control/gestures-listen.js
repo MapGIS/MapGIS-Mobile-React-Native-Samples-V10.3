@@ -57,8 +57,8 @@ export default class MapGesturesListen extends Component {
     // await this.mapView.registerLongTapListener();
     // await this.mapView.registerTouchListener();
     console.log('openMap:' + 'openMap');
-    var sketchEditor = new SketchEditor();
-    var sket1 = await sketchEditor.createObj(this.mapView);
+    let sketchEditor = new SketchEditor();
+    let sket1 = await sketchEditor.createObj(this.mapView);
     this.sket = sket1;
   };
 

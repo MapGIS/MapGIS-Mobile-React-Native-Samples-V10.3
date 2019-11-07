@@ -145,7 +145,7 @@ export default class MapCompoundQuery extends Component {
       'com.mapgis.RN.Mapview.AnnotationListenerA_ViewByAnn',
       async res => {
         let { AnnotationId } = res;
-        var annotation = new Annotation();
+        let annotation = new Annotation();
         annotation._MGAnnotationId = AnnotationId;
         let annotationViewModule = new AnnotationView();
         let annotationView = await annotationViewModule.createObj(
@@ -168,7 +168,7 @@ export default class MapCompoundQuery extends Component {
     let queryBound = await qu.createObjByRect(this.state.queryRect);
 
     let map = await this.mapView.getMap();
-    var mapLayer = await map.getLayer(11);
+    let mapLayer = await map.getLayer(11);
     if (mapLayer != null) {
       let featureQuery = new FeatureQuery();
       let query = await featureQuery.createObjByVectorLayer(mapLayer);
@@ -178,16 +178,15 @@ export default class MapCompoundQuery extends Component {
       await query.setSpatialFilterRelationship(1);
 
       let featurePagedResult = await query.query();
-      let pagecount = await featurePagedResult.getPageCount();
       let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
       let strFieldName = 'Name';
       let featureName = '';
       let featureLst = await featurePagedResult.getPage(1);
-      for (var j = 0; j < featureLst.length; j++) {
+      for (let j = 0; j < featureLst.length; j++) {
         let feature = await featureLst[j];
         let attributes = await feature.getAttributes();
-        var jsonObj = JSON.parse(attributes);
+        let jsonObj = JSON.parse(attributes);
         featureName = jsonObj[strFieldName];
 
         //获取要素的几何信息（默认查询点要素）

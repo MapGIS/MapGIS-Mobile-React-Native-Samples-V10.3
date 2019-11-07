@@ -14,8 +14,8 @@ export default class OfflineVectorMap extends Component {
   openMap = async () => {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
     //缩放地图到指定范围
-    var R = new Rect();
-    var mapRange = await R.createObj(
+    let R = new Rect();
+    let mapRange = await R.createObj(
       12705276.572663,
       3542912.332349,
       12746062.17078,
