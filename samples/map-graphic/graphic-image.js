@@ -4,13 +4,10 @@ import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
 import { IMG_FILE_PATH } from '../utils';
 import {
-  Rect,
   MGMapView,
   Dot,
-  PointF,
   Image,
   GraphicImage,
-  GraphicText,
 } from '@mapgis/mobile-react-native';
 
 export default class MapGraphicImage extends Component {

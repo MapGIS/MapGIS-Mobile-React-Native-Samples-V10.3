@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
-import {
-  Rect,
-  MGMapView,
-  Dot,
-  GraphicPolylin,
-  GraphicMultiPoint,
-  GraphicPolygon,
-} from '@mapgis/mobile-react-native';
+import { MGMapView, Dot, GraphicMultiPoint } from '@mapgis/mobile-react-native';
 
 /**
  * @content 坐标添加点
@@ -35,7 +28,7 @@ export default class MapGraphicPoint extends Component {
     dotArray.push(dot3);
     var graphicMultiPointModule = new GraphicMultiPoint();
     this.graphicMultiPoint = await graphicMultiPointModule.createObj();
-    await this.graphicMultiPoint.setColor('rgba(100, 200, 0, 12)');
+    await this.graphicMultiPoint.setColor('rgba(255, 0, 255, 127)');
     await this.graphicMultiPoint.setPointSize(20);
     await this.graphicMultiPoint.setPoints(dotArray);
 

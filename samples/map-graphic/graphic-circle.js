@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
-import {
-  Rect,
-  MGMapView,
-  Dot,
-  GraphicMultiPoint,
-  GraphicCircle,
-} from '@mapgis/mobile-react-native';
+import { MGMapView, Dot, GraphicCircle } from '@mapgis/mobile-react-native';
 
 export default class MapGraphicPoint extends Component {
   static navigationOptions = { title: '坐标添加圆' };
@@ -27,7 +21,7 @@ export default class MapGraphicPoint extends Component {
     this.graphicCircle = await graphicCircleModule.createObj();
     await this.graphicCircle.setColor('rgba(255, 255, 255, 180)');
     await this.graphicCircle.setCenterAndRadius(dot, 10000);
-    await this.graphicCircle.setBorderlineColor('rgba(100, 200, 0, 122)');
+    await this.graphicCircle.setBorderlineColor('rgba(255, 153, 51, 255)');
     await this.graphicCircle.setBorderlineWidth(10);
 
     this.graphicsOverlay = await this.mapView.getGraphicsOverlay();

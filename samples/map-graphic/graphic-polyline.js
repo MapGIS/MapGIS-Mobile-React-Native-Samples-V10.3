@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
-import {
-  Rect,
-  MGMapView,
-  Dot,
-  GraphicPolylin,
-  GraphicMultiPoint,
-  GraphicPolygon,
-} from '@mapgis/mobile-react-native';
+import { MGMapView, Dot, GraphicPolylin } from '@mapgis/mobile-react-native';
 
 /**
  * @content 坐标添加线
@@ -36,6 +29,7 @@ export default class MapGraphicPolyline extends Component {
     this.graphicPolylin = await graphicPolylinModule.createObj();
     await this.graphicPolylin.setLineWidth(10);
     await this.graphicPolylin.setPoints(dotArray);
+    await this.graphicPolylin.setColor('rgba(0, 0, 255, 255)');
 
     this.graphicsOverlay = await this.mapView.getGraphicsOverlay();
     await this.graphicsOverlay.addGraphic(this.graphicPolylin);

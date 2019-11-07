@@ -77,4 +77,18 @@ export default StyleSheet.create({
     color: '#eee',
     fontSize: 12,
   },
+  form: {
+    padding: 15,
+    backgroundColor: '#292c36',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+    margin: 8,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+  },
 });

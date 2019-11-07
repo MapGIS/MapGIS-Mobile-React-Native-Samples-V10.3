@@ -3,9 +3,9 @@ import {
   Alert,
   View,
   ToastAndroid,
-  Button,
-  StyleSheet,
   DeviceEventEmitter,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
@@ -145,7 +145,7 @@ export default class MapCompoundQuery extends Component {
       'com.mapgis.RN.Mapview.AnnotationListenerA_ViewByAnn',
       async res => {
         let { AnnotationId } = res;
-        var annotation = new Annotation();
+        let annotation = new Annotation();
         annotation._MGAnnotationId = AnnotationId;
         let annotationViewModule = new AnnotationView();
         let annotationView = await annotationViewModule.createObj(
@@ -178,7 +178,6 @@ export default class MapCompoundQuery extends Component {
       await query.setSpatialFilterRelationship(1);
 
       let featurePagedResult = await query.query();
-      let pagecount = await featurePagedResult.getPageCount();
       let getTotalFeatureCount = await featurePagedResult.getTotalFeatureCount();
 
       let strFieldName = 'Name';
@@ -254,30 +253,14 @@ export default class MapCompoundQuery extends Component {
           onGetInstance={this.onGetInstance}
           style={styles.mapView}
         />
-
-        <View style={style.form}>
-          <Button title="拉框复合查询" onPress={this.compoundQry} />
+        <View style={styles.buttons}>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={this.compoundQry}>
+              <Text style={styles.text}>拉框复合查询</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
   }
 }
-
-const style = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: '#292c36',
-  },
-  form: {
-    padding: 15,
-  },
-  mapView: {
-    flex: 1,
-  },
-  input: {
-    color: '#000',
-    fontSize: 16,
-    marginTop: 15,
-    // marginBottom: 15
-  },
-});

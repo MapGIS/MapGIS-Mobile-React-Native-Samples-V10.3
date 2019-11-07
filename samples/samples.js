@@ -21,7 +21,7 @@ if (Platform.OS === 'android') {
   Touchable = TouchableNativeFeedback;
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   body: {
     backgroundColor: '#f5f5f5',
   },
@@ -47,18 +47,18 @@ const style = StyleSheet.create({
 
 const ListItem = withNavigation(({ title, route, navigation }) => (
   <Touchable onPress={() => navigation.navigate(route)}>
-    <View style={style.item}>
-      <Text style={style.itemText}>{title}</Text>
+    <View style={styles.item}>
+      <Text style={styles.itemText}>{title}</Text>
     </View>
   </Touchable>
 ));
 
 function renderSectionHeader({ section }) {
-  return <Text style={style.sectionHeader}>{section.title}</Text>;
+  return <Text style={styles.sectionHeader}>{section.title}</Text>;
 }
 
 function renderSectionFooter() {
-  return <View style={style.sectionFooter} />;
+  return <View style={styles.sectionFooter} />;
 }
 
 function mapScreens(components) {
@@ -102,7 +102,7 @@ class Samples extends Component {
   render() {
     return (
       <SectionList
-        style={style.body}
+        style={styles.body}
         renderItem={({ item }) => (
           <ListItem title={item.title} route={item.key} />
         )}

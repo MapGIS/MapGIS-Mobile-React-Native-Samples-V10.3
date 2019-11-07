@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from '../styles';
 import { MAPX_FILE_PATH } from '../utils';
-import {
-  Rect,
-  MGMapView,
-  Dot,
-  GraphicPolylin,
-  GraphicMultiPoint,
-  GraphicPolygon,
-} from '@mapgis/mobile-react-native';
+import { MGMapView, Dot, GraphicPolygon } from '@mapgis/mobile-react-native';
 
 /**
  * @content 坐标添加多边形
@@ -26,7 +19,6 @@ export default class MapGraphicPolygon extends Component {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
     var dotModule = new Dot();
     var dotArray = [];
-    var intArr = [4];
     var dot0 = await dotModule.createObj(12742678.48, 3620270.51);
     var dot1 = await dotModule.createObj(12754184.19, 3595188.06);
     var dot2 = await dotModule.createObj(12774664.36, 3611065.94);
@@ -38,7 +30,7 @@ export default class MapGraphicPolygon extends Component {
     var graphicPolygonModule = new GraphicPolygon();
     this.graphicPolygon = await graphicPolygonModule.createObj();
     await this.graphicPolygon.setColor('rgba(0, 0, 0, 180)');
-    await this.graphicPolygon.setBorderlineColor('rgba(100, 200, 0, 90)');
+    await this.graphicPolygon.setBorderlineColor('rgba(255, 153, 51, 255)');
     await this.graphicPolygon.setBorderlineWidth(10);
     await this.graphicPolygon.setPoints(dotArray, null);
 
