@@ -8,7 +8,8 @@ import {
 /**
  * 环境初始化路径
  */
-export const INITIALIZE_PATH = 'MapGISSample';
+export const SDCARD_PATH = '/storage/emulated/0/';
+export const INITIALIZE_PATH = SDCARD_PATH + 'MapGISSample';
 
 /**
  * 存放系统库的路径
