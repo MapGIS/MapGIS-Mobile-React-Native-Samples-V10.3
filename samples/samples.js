@@ -15,6 +15,7 @@ import MapDisplay from './map-display';
 import MapControl from './map-control';
 import MapGraphic from './map-graphic';
 import MapFeatureQuery from './map-featurequery';
+import MapDocManager from './map-doc-manager';
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === 'android') {
@@ -76,6 +77,7 @@ class Samples extends Component {
     { title: '地图控制', data: mapScreens(MapControl) },
     { title: '地图覆盖物', data: mapScreens(MapGraphic) },
     { title: '要素查询', data: mapScreens(MapFeatureQuery) },
+    { title: '地图文档管理', data: mapScreens(MapDocManager) },
   ];
 
   init = async () => {
@@ -120,4 +122,5 @@ export default {
   ...MapControl,
   ...MapGraphic,
   ...MapFeatureQuery,
+  ...MapDocManager,
 };
