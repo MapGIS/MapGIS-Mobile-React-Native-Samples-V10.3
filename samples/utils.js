@@ -175,13 +175,13 @@ export const MAPX_WHDLW =
 
 //纹理线图标
 export const TXTLIN_IMG_FILE_PATH =
-  INITIALIZE_PATH + '/Map/Image/ico_texture_line.png';
+  INITIALIZE_PATH + '/Resource/ico_texture_line.png';
 
 //图像资源图标
-export const IMG_FILE_PATH = INITIALIZE_PATH + '/Map/Image/line.png';
+export const IMG_FILE_PATH = INITIALIZE_PATH + '/Resource/line.png';
 
 //标注显示图标
-export const ANN_FILE_PATH = INITIALIZE_PATH + '/Map/Image/location.png';
+export const ANN_FILE_PATH = INITIALIZE_PATH + '/Resource/location.png';
 
 export function mapComponents(prefix, screens) {
   return Object.keys(screens).reduce((result, name) => {
