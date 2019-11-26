@@ -8,7 +8,7 @@
     "lint": "eslint --fix --ext .js samples"
   },
   "dependencies": {
-    "@mapgis/mobile-react-native": "^1.0.4",
+    "@mapgis/mobile-react-native": "^1.0.5",
     "react": "16.8.6",
     "react-native": "0.60.3",
     "react-native-flexi-radio-button": "^0.2.2",
