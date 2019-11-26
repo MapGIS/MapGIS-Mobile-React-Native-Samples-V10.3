@@ -840,10 +840,8 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@mapgis/mobile-react-native@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npm.taobao.org/@mapgis/mobile-react-native/download/@mapgis/mobile-react-native-1.0.3.tgz#a7bf776b42e744990682ba747d2af440b884d5d2"
-  integrity sha1-p793a0LnRJkGgrp0fSr0QLiE1dI=
+"@mapgis/mobile-react-native@file:../mapgis-mobile-reactnative":
+  version "1.0.5"
 
 "@react-native-community/cli-platform-android@^2.0.1", "@react-native-community/cli-platform-android@^2.6.2":
   version "2.6.2"
