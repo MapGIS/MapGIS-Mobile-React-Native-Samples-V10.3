@@ -115,6 +115,7 @@ export default class MapCompoundQuery extends Component {
           dotArray.push(dot2);
           dotArray.push(dot3);
           dotArray.push(dot4);
+          dotArray.push(dot1);
           //为rect赋予范围
           let rectMoudle = new Rect();
           let qryRect = await rectMoudle.createObj(xmin, ymin, xmax, ymax);
