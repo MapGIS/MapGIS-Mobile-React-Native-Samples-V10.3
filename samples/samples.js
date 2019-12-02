@@ -13,9 +13,12 @@ import { requestMultiplePermission, INITIALIZE_PATH } from './utils';
 import { Environment } from '@mapgis/mobile-react-native';
 import MapDisplay from './map-display';
 import MapControl from './map-control';
+import MapDocManager from './map-doc-manager';
+import MapAnnotation from './map-annotation';
 import MapGraphic from './map-graphic';
 import MapFeatureQuery from './map-featurequery';
-import MapDocManager from './map-doc-manager';
+import Theme from './theme';
+import MapTool from './map-tool';
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === 'android') {
@@ -75,9 +78,12 @@ class Samples extends Component {
   sections = [
     { title: '地图显示', data: mapScreens(MapDisplay) },
     { title: '地图控制', data: mapScreens(MapControl) },
+    { title: '地图文档管理', data: mapScreens(MapDocManager) },
+    { title: '地图标注', data: mapScreens(MapAnnotation) },
     { title: '地图覆盖物', data: mapScreens(MapGraphic) },
     { title: '要素查询', data: mapScreens(MapFeatureQuery) },
-    { title: '地图文档管理', data: mapScreens(MapDocManager) },
+    { title: '专题图', data: mapScreens(Theme) },
+    { title: '地图工具', data: mapScreens(MapTool) },
   ];
 
   init = async () => {
@@ -120,7 +126,10 @@ export default {
   examples: { screen: Samples },
   ...MapDisplay,
   ...MapControl,
+  ...MapDocManager,
+  ...MapAnnotation,
   ...MapGraphic,
   ...MapFeatureQuery,
-  ...MapDocManager,
+  ...Theme,
+  ...MapTool,
 };

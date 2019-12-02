@@ -183,6 +183,17 @@ export const IMG_FILE_PATH = INITIALIZE_PATH + '/Resource/line.png';
 //标注显示图标
 export const ANN_FILE_PATH = INITIALIZE_PATH + '/Resource/location.png';
 
+// 地图背景图片
+export const MAP_BG_IMG_FILE_PATH = INITIALIZE_PATH + '/Resource/mapgis.jpg';
+
+// 固定点标注图片
+export const CONSTANT_ANN_FILE_PATH1 =
+  INITIALIZE_PATH + '/Resource/annotation1.png';
+export const CONSTANT_ANN_FILE_PATH2 =
+  INITIALIZE_PATH + '/Resource/annotation2.png';
+export const CONSTANT_ANN_FILE_PATH3 =
+  INITIALIZE_PATH + '/Resource/annotation3.png';
+
 export function mapComponents(prefix, screens) {
   return Object.keys(screens).reduce((result, name) => {
     const screen = screens[name];
