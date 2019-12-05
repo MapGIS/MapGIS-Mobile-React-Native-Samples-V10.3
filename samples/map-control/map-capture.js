@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import styles from '../styles';
 import { MGMapView, Rect } from '@mapgis/mobile-react-native';
-import { MAPX_FILE_PATH, INITIALIZE_PATH } from '../utils';
+import { MAPX_FILE_PATH, SCREEN_PATH } from '../utils';
 
 /**
  * @content 地图截屏功能示例
@@ -69,9 +69,7 @@ export default class MapCapture extends Component {
 
   // 截屏
   screenShot = async () => {
-    let bitmapPath = await this.mapView.getScreenSnapshot(
-      INITIALIZE_PATH + '/Resource/'
-    );
+    let bitmapPath = await this.mapView.getScreenSnapshot(SCREEN_PATH);
 
     this.showBitmap(bitmapPath, '截屏');
   };
@@ -90,7 +88,7 @@ export default class MapCapture extends Component {
     let height = (await this.mapView.getMeasuredHeight()) / 2;
 
     let result = await this.mapView.getScreenSnapshotByParam(
-      INITIALIZE_PATH + '/Resource/',
+      SCREEN_PATH,
       0,
       0,
       width,
@@ -110,7 +108,7 @@ export default class MapCapture extends Component {
     let obj = { width: measuredWidth, height: measuredHeight, type: 'png' };
     let bitmapPath = await this.mapView.getBitmap(
       entireRange,
-      INITIALIZE_PATH + '/Resource/',
+      SCREEN_PATH,
       obj
     );
 

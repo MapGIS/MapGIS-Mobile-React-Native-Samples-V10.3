@@ -12,6 +12,11 @@ export const SDCARD_PATH = '/storage/emulated/0/';
 export const INITIALIZE_PATH = SDCARD_PATH + 'MapGISSample';
 
 /**
+ * 截屏\出图图片存放地址
+ */
+export const SCREEN_PATH = INITIALIZE_PATH + '/Screen/';
+
+/**
  * 存放系统库的路径
  */
 export const SYSTEM_LIB_PATH1 = INITIALIZE_PATH + '/';
