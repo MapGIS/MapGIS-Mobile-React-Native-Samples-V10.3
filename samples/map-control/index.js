@@ -1,7 +1,7 @@
 import { mapComponents } from '../utils';
 import MapBasicOperate from './basic-operate';
 import MapUIControl from './ui-control';
-// import MapCapture from './map-capture';
+import MapCapture from './map-capture';
 import MapSetBackground from './map-set-background';
 import MapGesturesControl from './gestures-control';
 import MapGesturesListen from './gestures-listen';
@@ -11,7 +11,7 @@ import MapSetSystemLibrary from './map-set-system-library';
 export default mapComponents('MapControl', {
   MapBasicOperate,
   MapUIControl,
-  // MapCapture,
+  MapCapture,
   MapSetBackground,
   MapGesturesControl,
   MapGesturesListen,
