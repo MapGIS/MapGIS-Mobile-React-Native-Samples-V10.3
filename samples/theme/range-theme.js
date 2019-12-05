@@ -47,7 +47,7 @@ export default class RangeThemeDemo extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.loadMapListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -59,6 +59,10 @@ export default class RangeThemeDemo extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.loadMapListener.remove();
   }
 
   openMap = async () => {
@@ -153,7 +157,7 @@ export default class RangeThemeDemo extends Component {
       selectFieldName = filedNameArray[0];
     }
     this.setState({
-      selectFieldName: selectFieldName,
+      selectedFieldNameValue: selectFieldName,
       pickerLayerFieldData: filedNameArray,
     });
   };
@@ -185,7 +189,7 @@ export default class RangeThemeDemo extends Component {
       selectedLayer
     );
 
-    // 设置每页结果数据，缺省为10条
+    // 设置每页结果数据，缺省为20条
     await featureQuery.setPageSize(20);
     // 设置属性查询条件
     await featureQuery.setWhereClause(null);
@@ -255,17 +259,17 @@ export default class RangeThemeDemo extends Component {
           await pntInfo.setAngle(0);
           // 设置符号库编号（请参考MapGIS符号库编号）
           await pntInfo.setLibID(1);
-          let strSymId = (1 + Math.random() * (211 - 1 + 1)).toString();
-          let intSymId = Number.parseInt(strSymId, 10);
+
           // 设置符号编号（请参考MapGIS符号库中符号编号）
-          await pntInfo.setSymID(intSymId);
+          await pntInfo.setSymID(1 + Math.random() * (211 - 1 + 1));
 
           // 设置可变颜色1（请参考MapGIS颜色库中颜色编号）
-          await pntInfo.setOutClr1('rgba(255, 204, 204, 204)');
+          await pntInfo.setOutClr1(1 + Math.random() * (1500 - 1 + 1));
+
           // 设置符号高度
-          await pntInfo.setHeight(1);
+          await pntInfo.setHeight(4);
           // 设置符号宽度
-          await pntInfo.setWidth(1);
+          await pntInfo.setWidth(4);
 
           await rangeThemeInfo.setGeoInfo(pntInfo);
           await rangeThemeInfo.setCaption('第' + i + '个');
@@ -294,7 +298,7 @@ export default class RangeThemeDemo extends Component {
           await regInfo.setPatWidth(1);
           await regInfo.setPatHeight(1);
           await regInfo.setPatID(131);
-          await regInfo.setFillClr('rgba(255, 10, 180, 180)');
+          await regInfo.setFillClr(1 + Math.random() * (1500 - 1 + 1));
 
           await rangeThemeInfo.setGeoInfo(regInfo);
           await rangeThemeInfo.setCaption('第' + j + '个');

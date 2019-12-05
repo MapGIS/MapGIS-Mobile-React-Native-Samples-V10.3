@@ -104,7 +104,7 @@ export default class SimpleThemeDemo extends Component {
         // 设置符号编号（请参考MapGIS符号库中符号编号）
         await pntInfo.setSymID(1 + Math.random() * (211 - 1 + 1));
         // 设置可变颜色1（请参考MapGIS颜色库中颜色编号）
-        await pntInfo.setOutClr1('rgba(255, 204, 204, 204)');
+        await pntInfo.setOutClr1(1 + Math.random() * (1500 - 1 + 1));
         // 设置符号高度
         await pntInfo.setHeight(4);
         // 设置符号宽度
@@ -124,7 +124,8 @@ export default class SimpleThemeDemo extends Component {
         //设置角度
         await regInfo.setAngle(0);
         //设置填充颜色（请参考MapGIS颜色库中颜色编号）
-        await regInfo.setFillClr('rgba(180, 204, 204, 204)');
+
+        await regInfo.setFillClr(1 + Math.random() * (1500 - 1 + 1));
         //设置填充模式
         await regInfo.setFillMode(0);
         //为专题图绘制信息对象设置图形信息

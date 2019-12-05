@@ -45,7 +45,7 @@ export default class UniqueThemeDemo extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.loadMapListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -56,6 +56,10 @@ export default class UniqueThemeDemo extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.loadMapListener.remove();
   }
 
   openMap = async () => {
@@ -134,7 +138,7 @@ export default class UniqueThemeDemo extends Component {
       selectFieldName = filedNameArray[0];
     }
     this.setState({
-      selectFieldName: selectFieldName,
+      selectedFieldNameValue: selectFieldName,
       pickerLayerFieldData: filedNameArray,
     });
   };
@@ -188,6 +192,7 @@ export default class UniqueThemeDemo extends Component {
     let uniqueThemeModule = new UniqueTheme();
     let uniqueTheme = await uniqueThemeModule.createObj();
     await uniqueTheme.setName(this.state.selectedLayerValue);
+    await uniqueTheme.setExpression(this.state.selectedFieldNameValue);
     await uniqueTheme.setVisible(true);
 
     // 创建单值专题图绘制信息对象
@@ -213,7 +218,7 @@ export default class UniqueThemeDemo extends Component {
           // 设置符号编号（请参考MapGIS符号库中符号编号）
           await pntInfo.setSymID(1 + Math.random() * (211 - 1 + 1));
           // 设置可变颜色1（请参考MapGIS颜色库中颜色编号）
-          await pntInfo.setOutClr1('rgba(255, 204, 204, 204)');
+          await pntInfo.setOutClr1(1 + Math.random() * (1500 - 1 + 1));
           // 设置符号高度
           await pntInfo.setHeight(4);
           // 设置符号宽度
@@ -237,7 +242,7 @@ export default class UniqueThemeDemo extends Component {
           let regInfoModule = new RegInfo();
           let regInfo = await regInfoModule.createObj();
           //设置填充颜色（请参考MapGIS颜色库中颜色编号）
-          await regInfo.setFillClr('rgba(255, 10, 180, 180)');
+          await regInfo.setFillClr(1 + Math.random() * (1500 - 1 + 1));
 
           await uniqueThemeInfo.setGeoInfo(regInfo);
           await uniqueThemeInfo.setCaption('第' + j + '个');

@@ -16,19 +16,13 @@ import {
   SYSTEM_LIB_PATH2,
 } from '../utils';
 
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  ToastAndroid,
-} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 /**
  * @content 多表达式分段专题图示例
  * @author xiaoying 2019-11-27
  */
 
-export default class MapSetSystemLibrary extends Component {
+export default class MultiClassThemeDemo extends Component {
   static navigationOptions = { title: '多表达式分段专题图' };
 
   constructor() {
@@ -128,7 +122,7 @@ export default class MapSetSystemLibrary extends Component {
         let regInfoModule = new RegInfo();
         let regInfo = await regInfoModule.createObj();
         // 设置填充颜色
-        await regInfo.setFillClr('rgba(11, 55, 109, 22)');
+        await regInfo.setFillClr(1 + Math.random() * (1500 - 1 + 1));
         // 设置专题图项的图形信息
         await multiClassThemeInfo.setGeoInfo(regInfo, GeomType.GeomReg);
         // 设置专题图可见性
