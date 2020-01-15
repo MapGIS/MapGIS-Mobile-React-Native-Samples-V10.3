@@ -134,9 +134,15 @@ export const IGSERVER_DOC_WUHANEDIT_PATH =
  * （3）增量更新更新库(数据变化)
  * （4）增量更新更新库(数据恢复)
  */
-export const MAP_EDIT_MAPX_PATH =
+export const FEATURE_EDIT_MAPX_PATH =
   INITIALIZE_PATH + '/Map/MapEdit/WuHanEdit.mapx';
-export const MAP_EDIT_DB_PATH = INITIALIZE_PATH + '/Map/MapEdit/武汉MKT.mgdb';
+export const FEATURE_EDIT_DB_PATH =
+  INITIALIZE_PATH + '/Map/MapEdit/武汉MKT.hdb';
+
+export const MAP_EDIT_MAPX_PATH =
+  INITIALIZE_PATH + '/Map/MapEditMGDB/WuHanEdit.mapx';
+export const MAP_EDIT_DB_PATH =
+  INITIALIZE_PATH + '/Map/MapEditMGDB/武汉MKT.mgdb';
 export const DATA_INCREMENTAL_UPDATE_PATH_1 =
   INITIALIZE_PATH + '/Map/IncrementalUpdate/change.mudb';
 export const DATA_INCREMENTAL_UPDATE_PATH_2 =

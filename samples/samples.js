@@ -17,6 +17,7 @@ import MapDocManager from './map-doc-manager';
 import MapAnnotation from './map-annotation';
 import MapGraphic from './map-graphic';
 import MapFeatureQuery from './map-featurequery';
+import MapFeatureEdit from './map-featureedit';
 import Theme from './theme';
 import MapTool from './map-tool';
 
@@ -82,6 +83,7 @@ class Samples extends Component {
     { title: '地图标注', data: mapScreens(MapAnnotation) },
     { title: '地图覆盖物', data: mapScreens(MapGraphic) },
     { title: '要素查询', data: mapScreens(MapFeatureQuery) },
+    { title: '要素编辑', data: mapScreens(MapFeatureEdit) },
     { title: '专题图', data: mapScreens(Theme) },
     { title: '地图工具', data: mapScreens(MapTool) },
   ];
@@ -130,6 +132,7 @@ export default {
   ...MapAnnotation,
   ...MapGraphic,
   ...MapFeatureQuery,
+  ...MapFeatureEdit,
   ...Theme,
   ...MapTool,
 };
