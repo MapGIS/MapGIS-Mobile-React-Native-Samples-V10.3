@@ -904,7 +904,7 @@ export default class MapIGServerEdit extends Component {
       <View style={styles.container}>
         <View style={[style.pickerView]}>
           <View style={style.pickerGroup}>
-            <Text style={styles.text}>图层：</Text>
+            <Text style={style.text}>图层:</Text>
             <Picker
               style={style.pickerStyle}
               mode="dropdown"
@@ -918,7 +918,7 @@ export default class MapIGServerEdit extends Component {
               <Picker.Item label="区图层" value="reg" />
             </Picker>
 
-            <Text style={styles.text}>初始化方式：</Text>
+            <Text style={style.text}>初始化方式:</Text>
             <Picker
               style={style.pickerStyle}
               mode="dropdown"
@@ -940,17 +940,17 @@ export default class MapIGServerEdit extends Component {
         <View style={[styles.buttons, { bottom: 60 }]}>
           <View style={styles.button}>
             <TouchableOpacity onPress={this.addFeature}>
-              <Text style={styles.text}>添加</Text>
+              <Text style={styles.text}>添 加</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.button}>
             <TouchableOpacity onPress={this.editFeature}>
-              <Text style={styles.text}>修改</Text>
+              <Text style={styles.text}>修 改</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.button}>
             <TouchableOpacity onPress={this.deleteFeature}>
-              <Text style={styles.text}>删除</Text>
+              <Text style={styles.text}>删 除</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -961,26 +961,19 @@ export default class MapIGServerEdit extends Component {
 
 const style = StyleSheet.create({
   pickerView: {
-    flexDirection: 'row',
-    backgroundColor: '#000',
-    paddingTop: 5,
-    paddingBottom: 5,
+    backgroundColor: 'rgba(192,192,192,0.8)',
   },
   pickerGroup: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  pickerCol: {
-    flex: 1,
+    justifyContent: 'center',
   },
   pickerStyle: {
     width: 200,
-    backgroundColor: 'rgba(245,83,61,0.8)',
-    color: '#fff',
   },
-  pickerItem: {
-    backgroundColor: 'rgba(245,83,61,0.8)',
-    color: '#fff',
-    borderRadius: 15,
+  text: {
+    fontSize: 16,
+    color: '#000',
+    paddingTop: 15,
+    paddingLeft: 80,
   },
 });
