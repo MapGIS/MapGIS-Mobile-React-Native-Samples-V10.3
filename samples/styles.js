@@ -91,4 +91,32 @@ export default StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
   },
+  textView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  itemSingleView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#292c36',
+  },
+  itemKey: {
+    fontSize: 16,
+    color: '#rgba(245,83,61,0.8)',
+    flexDirection: 'column',
+    textAlign: 'left',
+    flexWrap: 'wrap',
+    paddingTop: 5,
+  },
+  // item的可见字体样式
+  itemValue: {
+    fontSize: 16,
+    color: '#fff',
+    flexDirection: 'column',
+    textAlign: 'left',
+    flexWrap: 'wrap',
+    paddingLeft: 5,
+    paddingTop: 5,
+  },
 });

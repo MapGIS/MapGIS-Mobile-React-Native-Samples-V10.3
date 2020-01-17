@@ -20,6 +20,7 @@ import MapFeatureQuery from './map-featurequery';
 import MapFeatureEdit from './map-featureedit';
 import Theme from './theme';
 import MapTool from './map-tool';
+import MapSpatial from './map-spatial';
 
 let Touchable = TouchableHighlight;
 if (Platform.OS === 'android') {
@@ -86,6 +87,7 @@ class Samples extends Component {
     { title: '要素编辑', data: mapScreens(MapFeatureEdit) },
     { title: '专题图', data: mapScreens(Theme) },
     { title: '地图工具', data: mapScreens(MapTool) },
+    { title: '空间分析与计算', data: mapScreens(MapSpatial) },
   ];
 
   init = async () => {
@@ -135,4 +137,5 @@ export default {
   ...MapFeatureEdit,
   ...Theme,
   ...MapTool,
+  ...MapSpatial,
 };
