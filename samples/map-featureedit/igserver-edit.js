@@ -94,31 +94,31 @@ export default class MapIGServerEdit extends Component {
   };
 
   addFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.addPoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.addLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.addPolygon();
     }
   };
 
   editFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.modifyPoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.modifyLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.modifyPolygon();
     }
   };
 
   deleteFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.deletePoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.deleteLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.deletePolygon();
     }
   };
@@ -128,7 +128,7 @@ export default class MapIGServerEdit extends Component {
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -137,7 +137,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘点'
@@ -184,7 +184,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -199,7 +199,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘点'
@@ -261,7 +261,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -276,7 +276,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘点'
@@ -311,7 +311,7 @@ export default class MapIGServerEdit extends Component {
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -320,7 +320,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘线'
@@ -372,7 +372,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -387,7 +387,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘线'
@@ -452,7 +452,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -467,7 +467,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘线'
@@ -503,7 +503,7 @@ export default class MapIGServerEdit extends Component {
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -512,7 +512,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘区'
@@ -573,7 +573,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -588,7 +588,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘区'
@@ -666,7 +666,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -681,7 +681,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/sfcls/自绘区'
@@ -717,7 +717,7 @@ export default class MapIGServerEdit extends Component {
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -726,7 +726,7 @@ export default class MapIGServerEdit extends Component {
       ); //一级点图层
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/acls/自定义注记'
@@ -774,7 +774,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -789,7 +789,7 @@ export default class MapIGServerEdit extends Component {
       );
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/acls/自定义注记'
@@ -853,7 +853,7 @@ export default class MapIGServerEdit extends Component {
     let featureEdit = null;
     let featureQuery = null;
     //根据基地址、地图文档名称、地图ID、图层 ID构造FeatureEdit对象，此种方法需要配置地图文档，并发布到igserver服务器中
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       featureEdit = await featureEditModule.createObjByIGSDoc(
         IGSERVER_BASE_URL,
         'WuHanEdit',
@@ -868,7 +868,7 @@ export default class MapIGServerEdit extends Component {
       );
     }
     //根据基地址、图层数据地址构造FeatureEdit对象，此种方法可以不用配置地图文档，获取到URL地址直接使用即可
-    else if (this.state.selectedData == 'cls') {
+    else if (this.state.selectedData === 'cls') {
       featureEdit = await featureEditModule.createObjByIGSData(
         IGSERVER_BASE_URL,
         'gdbp://MapGisLocal/武汉MKT/acls/自定义注记'
@@ -902,36 +902,55 @@ export default class MapIGServerEdit extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[style.pickerView]}>
-          <View style={style.pickerGroup}>
-            <Text style={style.text}>图层:</Text>
-            <Picker
-              style={style.pickerStyle}
-              mode="dropdown"
-              selectedValue={this.state.selectedOper}
-              onValueChange={(itemValue, itemIndex) => {
-                this.changeEditOperValue(itemValue, itemIndex);
-              }}
-            >
-              <Picker.Item label="点图层" value="point" />
-              <Picker.Item label="线图层" value="line" />
-              <Picker.Item label="区图层" value="reg" />
-            </Picker>
+        <View style={[style.pickerView, style.pickerViewWidth]}>
+          <Text style={style.text}>图层:</Text>
+          <Picker
+            style={style.pickerStyle}
+            mode="dropdown"
+            selectedValue={this.state.selectedOper}
+            onValueChange={(itemValue, itemIndex) => {
+              this.changeEditOperValue(itemValue, itemIndex);
+            }}
+          >
+            <Picker.Item
+              label="点图层"
+              value="point"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="线图层"
+              value="line"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="区图层"
+              value="reg"
+              itemStyle={style.pickerItem}
+            />
+          </Picker>
 
-            <Text style={style.text}>初始化方式:</Text>
-            <Picker
-              style={style.pickerStyle}
-              mode="dropdown"
-              selectedValue={this.state.selectedData}
-              onValueChange={(itemValue, itemIndex) => {
-                this.changeEditDataValue(itemValue, itemIndex);
-              }}
-            >
-              <Picker.Item label="地图文档" value="doc" />
-              <Picker.Item label="简单要素类" value="cls" />
-            </Picker>
-          </View>
+          <Text style={style.text}>数据:</Text>
+          <Picker
+            style={style.pickerStyle}
+            mode="dropdown"
+            selectedValue={this.state.selectedData}
+            onValueChange={(itemValue, itemIndex) => {
+              this.changeEditDataValue(itemValue, itemIndex);
+            }}
+          >
+            <Picker.Item
+              label="地图文档"
+              value="doc"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="简单要素类"
+              value="cls"
+              itemStyle={style.pickerItem}
+            />
+          </Picker>
         </View>
+
         <MGMapView
           ref="mapView"
           onGetInstance={this.onGetInstance}
@@ -961,19 +980,28 @@ export default class MapIGServerEdit extends Component {
 
 const style = StyleSheet.create({
   pickerView: {
-    backgroundColor: 'rgba(192,192,192,0.8)',
-  },
-  pickerGroup: {
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: 'rgba(192,192,192,0.8)',
+    paddingTop: 5,
+  },
+  pickerViewWidth: {
+    width: Dimensions.get('window').width,
   },
   pickerStyle: {
-    width: 200,
+    width: 144,
+    height: 45,
+  },
+  pickerItem: {
+    width: Dimensions.get('window').width,
+    backgroundColor: 'rgba(245,83,61,0.8)',
+    color: '#000',
+    borderRadius: 15,
+    alignItems: 'center',
   },
   text: {
     fontSize: 16,
     color: '#000',
-    paddingTop: 15,
-    paddingLeft: 80,
+    paddingTop: 12,
   },
 });

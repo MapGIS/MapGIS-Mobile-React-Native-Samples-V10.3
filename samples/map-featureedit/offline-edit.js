@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   DeviceEventEmitter,
+  Dimensions,
 } from 'react-native';
 import styles from '../styles';
 import { FEATURE_EDIT_MAPX_PATH } from '../utils';
@@ -86,37 +87,37 @@ export default class MapOfflineEdit extends Component {
   };
 
   addFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.addPoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.addLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.addPolygon();
-    } else if (this.state.selectedOper == 'ann') {
+    } else if (this.state.selectedOper === 'ann') {
       this.addAnno();
     }
   };
 
   editFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.modifyPoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.modifyLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.modifyPolygon();
-    } else if (this.state.selectedOper == 'ann') {
+    } else if (this.state.selectedOper === 'ann') {
       this.modifyAnno();
     }
   };
 
   deleteFeature = async () => {
-    if (this.state.selectedOper == 'point') {
+    if (this.state.selectedOper === 'point') {
       this.deletePoint();
-    } else if (this.state.selectedOper == 'line') {
+    } else if (this.state.selectedOper === 'line') {
       this.deleteLine();
-    } else if (this.state.selectedOper == 'reg') {
+    } else if (this.state.selectedOper === 'reg') {
       this.deletePolygon();
-    } else if (this.state.selectedOper == 'ann') {
+    } else if (this.state.selectedOper === 'ann') {
       this.deleteAnno();
     }
   };
@@ -125,14 +126,14 @@ export default class MapOfflineEdit extends Component {
     //创建要素编辑对象
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         let featureCls = await selectedLayer.getData();
@@ -184,7 +185,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
@@ -194,7 +195,7 @@ export default class MapOfflineEdit extends Component {
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         let featureCls = await selectedLayer.getData();
@@ -259,7 +260,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
@@ -269,7 +270,7 @@ export default class MapOfflineEdit extends Component {
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(8);
       if (selectedLayer != null) {
         let featureCls = await selectedLayer.getData();
@@ -310,12 +311,12 @@ export default class MapOfflineEdit extends Component {
     //创建要素编辑对象
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(6);
       featureEdit = await featureEditModule.createObjByVectorLayer(
         selectedLayer
       );
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(6);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -366,7 +367,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(6);
       featureEdit = await featureEditModule.createObjByVectorLayer(
         selectedLayer
@@ -374,7 +375,7 @@ export default class MapOfflineEdit extends Component {
       featureQuery = await featureQueryModule.createObjByVectorLayer(
         selectedLayer
       );
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(6);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -437,7 +438,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(6);
       featureEdit = await featureEditModule.createObjByVectorLayer(
         selectedLayer
@@ -445,7 +446,7 @@ export default class MapOfflineEdit extends Component {
       featureQuery = await featureQueryModule.createObjByVectorLayer(
         selectedLayer
       );
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(6);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -480,12 +481,12 @@ export default class MapOfflineEdit extends Component {
     //创建要素编辑对象
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(3);
       featureEdit = await featureEditModule.createObjByVectorLayer(
         selectedLayer
       );
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(3);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -544,7 +545,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(3);
       featureEdit = await featureEditModule.createObjByVectorLayer(
         selectedLayer
@@ -552,7 +553,7 @@ export default class MapOfflineEdit extends Component {
       featureQuery = await featureQueryModule.createObjByVectorLayer(
         selectedLayer
       );
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(3);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -626,7 +627,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(3);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
@@ -636,7 +637,7 @@ export default class MapOfflineEdit extends Component {
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(3);
       if (selectedLayer != null) {
         let featureCls = await selectedLayer.getData();
@@ -677,14 +678,14 @@ export default class MapOfflineEdit extends Component {
     //创建要素编辑对象
     let featureEditModule = new FeatureEdit();
     let featureEdit = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(10);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(10);
       if (selectedLayer != null) {
         let featureCls = await selectedLayer.getData();
@@ -735,7 +736,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(10);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
@@ -745,7 +746,7 @@ export default class MapOfflineEdit extends Component {
           selectedLayer
         );
       }
-    } else if (this.state.selectedData == 'cls') {
+    } else if (this.state.selectedData === 'cls') {
       let selectedLayer = await this.map.getLayer(10);
       let featureCls = await selectedLayer.getData();
       if (featureCls != null && (await featureCls.hasOpen())) {
@@ -808,7 +809,7 @@ export default class MapOfflineEdit extends Component {
     let featureQueryModule = new FeatureQuery();
     let featureEdit = null;
     let featureQuery = null;
-    if (this.state.selectedData == 'doc') {
+    if (this.state.selectedData === 'doc') {
       let selectedLayer = await this.map.getLayer(10);
       if (selectedLayer != null) {
         featureEdit = await featureEditModule.createObjByVectorLayer(
@@ -859,37 +860,60 @@ export default class MapOfflineEdit extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[style.pickerView]}>
-          <View style={style.pickerGroup}>
-            <Text style={style.text}>图层:</Text>
-            <Picker
-              style={style.pickerStyle}
-              mode="dropdown"
-              selectedValue={this.state.selectedOper}
-              onValueChange={(itemValue, itemIndex) => {
-                this.changeEditOperValue(itemValue, itemIndex);
-              }}
-            >
-              <Picker.Item label="点图层" value="point" />
-              <Picker.Item label="线图层" value="line" />
-              <Picker.Item label="区图层" value="reg" />
-              <Picker.Item label="注记图层" value="ann" />
-            </Picker>
+        <View style={[style.pickerView, style.pickerViewWidth]}>
+          <Text style={style.text}>图层:</Text>
+          <Picker
+            style={style.pickerStyle}
+            mode="dropdown"
+            selectedValue={this.state.selectedOper}
+            onValueChange={(itemValue, itemIndex) => {
+              this.changeEditOperValue(itemValue, itemIndex);
+            }}
+          >
+            <Picker.Item
+              label="点图层"
+              value="point"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="线图层"
+              value="line"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="区图层"
+              value="reg"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="注记图层"
+              value="ann"
+              itemStyle={style.pickerItem}
+            />
+          </Picker>
 
-            <Text style={style.text}>初始化方式:</Text>
-            <Picker
-              style={style.pickerStyle}
-              mode="dropdown"
-              selectedValue={this.state.selectedData}
-              onValueChange={(itemValue, itemIndex) => {
-                this.changeEditDataValue(itemValue, itemIndex);
-              }}
-            >
-              <Picker.Item label="地图文档" value="doc" />
-              <Picker.Item label="简单要素类" value="cls" />
-            </Picker>
-          </View>
+          <Text style={style.text}>数据:</Text>
+          <Picker
+            style={style.pickerStyle}
+            mode="dropdown"
+            selectedValue={this.state.selectedData}
+            onValueChange={(itemValue, itemIndex) => {
+              this.changeEditDataValue(itemValue, itemIndex);
+            }}
+          >
+            <Picker.Item
+              label="地图文档"
+              value="doc"
+              itemStyle={style.pickerItem}
+            />
+            <Picker.Item
+              label="简单要素类"
+              value="cls"
+              itemStyle={style.pickerItem}
+            />
+          </Picker>
         </View>
+
         <MGMapView
           ref="mapView"
           onGetInstance={this.onGetInstance}
@@ -919,19 +943,28 @@ export default class MapOfflineEdit extends Component {
 
 const style = StyleSheet.create({
   pickerView: {
-    backgroundColor: 'rgba(192,192,192,0.8)',
-  },
-  pickerGroup: {
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: 'rgba(192,192,192,0.8)',
+    paddingTop: 5,
+  },
+  pickerViewWidth: {
+    width: Dimensions.get('window').width,
   },
   pickerStyle: {
-    width: 200,
+    width: 144,
+    height: 45,
+  },
+  pickerItem: {
+    width: Dimensions.get('window').width,
+    backgroundColor: 'rgba(245,83,61,0.8)',
+    color: '#000',
+    borderRadius: 15,
+    alignItems: 'center',
   },
   text: {
     fontSize: 16,
     color: '#000',
-    paddingTop: 15,
-    paddingLeft: 80,
+    paddingTop: 12,
   },
 });
