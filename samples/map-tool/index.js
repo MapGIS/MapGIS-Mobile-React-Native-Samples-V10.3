@@ -1,6 +1,6 @@
 import { mapComponents } from '../utils';
 import SketchEditorDemo from './sketch-editor';
 
-export default mapComponents('Theme', {
+export default mapComponents('MapTool', {
   SketchEditorDemo,
 });
