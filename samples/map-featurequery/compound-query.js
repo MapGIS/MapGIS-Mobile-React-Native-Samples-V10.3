@@ -50,8 +50,12 @@ export default class MapCompoundQuery extends Component {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
   };
 
+  componentWillUnmount() {
+    this.mapLoadListener.remove();
+  }
+
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {

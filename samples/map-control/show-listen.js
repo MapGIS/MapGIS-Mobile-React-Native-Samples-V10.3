@@ -42,8 +42,12 @@ export default class MapShowListen extends Component {
     await this.mapView.registerZoomChangedListener();
   };
 
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
+
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.zoomchanged_event',
       res => {
         this.setState({

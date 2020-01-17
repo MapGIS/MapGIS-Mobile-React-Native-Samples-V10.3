@@ -37,7 +37,7 @@ export default class MapClipAnalysis extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -60,6 +60,10 @@ export default class MapClipAnalysis extends Component {
       }
     );
   }
+
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
 
   /**
    * 初始化显示分析对象图形

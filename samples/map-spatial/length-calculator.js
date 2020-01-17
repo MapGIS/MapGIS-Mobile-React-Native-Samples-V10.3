@@ -39,7 +39,7 @@ export default class MapCalculateLength extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -60,6 +60,10 @@ export default class MapCalculateLength extends Component {
       }
     );
   }
+
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
 
   /**
    * 计算空间线的长度

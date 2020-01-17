@@ -42,7 +42,7 @@ export default class MapSpatialCalculator extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -65,6 +65,10 @@ export default class MapSpatialCalculator extends Component {
       }
     );
   }
+
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
 
   /**
    *初始化

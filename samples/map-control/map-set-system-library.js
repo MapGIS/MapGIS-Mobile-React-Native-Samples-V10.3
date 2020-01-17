@@ -27,7 +27,7 @@ export default class MapSetSystemLibrary extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -49,6 +49,7 @@ export default class MapSetSystemLibrary extends Component {
   }
 
   componentWillUnmount() {
+    this.mapLoadListener.remove();
     // 恢复系统库为系统库1
     this.setSystemLibrary(SYSTEM_LIB_PATH1);
   }

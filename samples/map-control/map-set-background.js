@@ -27,7 +27,7 @@ export default class MapSetBackground extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -37,6 +37,10 @@ export default class MapSetBackground extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.mapLoadListener.remove();
   }
 
   openMap = async () => {

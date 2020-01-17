@@ -16,7 +16,7 @@ export default class Display3DViewMap extends Component {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -24,6 +24,10 @@ export default class Display3DViewMap extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.mapLoadListener.remove();
   }
 
   showMap = async () => {

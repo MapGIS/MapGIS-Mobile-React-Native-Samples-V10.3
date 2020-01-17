@@ -47,8 +47,12 @@ export default class MapGesturesListen extends Component {
     await this.mapView.registerTapListener();
   };
 
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
+
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.single_tap_event',
       res => {
         this.setState({

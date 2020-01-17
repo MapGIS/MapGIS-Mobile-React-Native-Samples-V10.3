@@ -51,6 +51,10 @@ export default class MapOfflineEdit extends Component {
     this.map = await this.mapView.getMap();
   };
 
+  componentWillUnmount = () => {
+    this.mapLoadListener.remove();
+  };
+
   componentDidMount() {
     this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',

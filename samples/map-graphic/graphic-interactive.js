@@ -58,8 +58,12 @@ export default class MapGraphicInterActive extends Component {
     await this.mapView.loadFromFile(MAPX_FILE_PATH);
   };
 
+  componentWillUnmount() {
+    this.mapLoadListener.remove();
+  }
+
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.single_tap_event',
       async res => {
         let graphicPointModule = new GraphicPoint();

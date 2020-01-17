@@ -38,7 +38,7 @@ export default class MapBaseInformation extends Component {
 
   // 地图加载监听
   componentDidMount() {
-    DeviceEventEmitter.addListener(
+    this.mapLoadListener = DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.LoadMapListener_Finish',
       async res => {
         if (res.DidFinishLoadingMap) {
@@ -46,6 +46,10 @@ export default class MapBaseInformation extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    this.mapLoadListener.remove();
   }
 
   // 读取地图信息
