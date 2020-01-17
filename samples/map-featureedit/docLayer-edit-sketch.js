@@ -1,4 +1,4 @@
-import React, { Component, useDebugValue } from 'react';
+import React, { Component } from 'react';
 import styles from '../styles';
 import {
   MGMapView,
@@ -63,6 +63,8 @@ export default class DocLayerEditSketchDemo extends Component {
       deleteFeature: null,
       modifyFeature: null,
       modifyFeatureID: -1,
+      textArry: [],
+      modifyType: -1,
 
       isClickPointBt: false,
       isClickLineBt: false,
@@ -158,6 +160,13 @@ export default class DocLayerEditSketchDemo extends Component {
         this.tapMapView(res);
       }
     );
+
+    this.mapDoubleTapListener = DeviceEventEmitter.addListener(
+      'com.mapgis.RN.Mapview.double_tap_event',
+      res => {
+        this.saveUpdateFeature();
+      }
+    );
   }
 
   componentWillUnmount = () => {
@@ -167,6 +176,7 @@ export default class DocLayerEditSketchDemo extends Component {
     this.redoStateChangeListener.remove();
     this.mapLoadListener.remove();
     this.mapTapListener.remove();
+    this.mapDoubleTapListener.remove();
   };
 
   // 初始化草图编辑器
@@ -187,6 +197,24 @@ export default class DocLayerEditSketchDemo extends Component {
   startSketchEdit = async sketchDataType => {
     if (this.state.sketchEditor !== null) {
       await this.state.sketchEditor.startByType(sketchDataType);
+    }
+  };
+
+  /**
+   * 通过Geometry开始草图编辑
+   *
+   * @memberof SketchEditorDemo
+   * @param geometry 几何信息
+   */
+  startSketchByGeometry = async geometry => {
+    if (this.state.sketchEditor !== null) {
+      await this.state.sketchEditor.start(geometry);
+    }
+  };
+
+  registerDoubleTapListener = async () => {
+    if (this.mapView !== null) {
+      await this.mapView.registerDoubleTapListener();
     }
   };
 
@@ -359,9 +387,7 @@ export default class DocLayerEditSketchDemo extends Component {
     if (geoType === GeometryType.GeoPoints) {
       geoTypeName = '点';
       // 属性
-      let attribute = [];
-      attribute.push('Name', '自定义点1');
-
+      let attribute = { Name: '自定义点1' };
       //添加点
       let pntInfoModule = new PntInfo();
       let pntInfo = await pntInfoModule.createObj();
@@ -379,8 +405,7 @@ export default class DocLayerEditSketchDemo extends Component {
     } else if (geoType === GeometryType.GeoVarLine) {
       geoTypeName = '线';
       // 属性
-      let attribute = [];
-      attribute.push('Name_chn', '自定义线1');
+      let attribute = { Name_chn: '自定义线1' };
 
       //添加点
       let linInfoModule = new LinInfo();
@@ -396,8 +421,7 @@ export default class DocLayerEditSketchDemo extends Component {
     } else if (geoType === GeometryType.GeoLines) {
       geoTypeName = '线';
       // 属性
-      let attribute = [];
-      attribute.push('Name_chn', '自定义线1');
+      let attribute = { Name_chn: '自定义线1' };
 
       //添加点
       let linInfoModule = new LinInfo();
@@ -413,8 +437,7 @@ export default class DocLayerEditSketchDemo extends Component {
     } else if (geoType === GeometryType.GeoPolygon) {
       geoTypeName = '区';
       // 属性
-      let attribute = [];
-      attribute.push('Name', '自定义区1');
+      let attribute = { Name: '自定义区1' };
 
       //添加点
       let regInfoModule = new RegInfo();
@@ -430,8 +453,7 @@ export default class DocLayerEditSketchDemo extends Component {
     } else if (geoType === GeometryType.GeoPolygons) {
       geoTypeName = '区';
       // 属性
-      let attribute = [];
-      attribute.push('Name', '自定义区1');
+      let attribute = { Name: '自定义区1' };
 
       //添加点
       let regInfoModule = new RegInfo();
@@ -491,12 +513,22 @@ export default class DocLayerEditSketchDemo extends Component {
     this.setState({ modifyFeature: null });
     await (await this.mapView.getGraphicsOverlay()).removeAllGraphics();
 
+    let resDotObj = new Dot();
+    let resDot = await resDotObj.createObj(res.x, res.y);
+
+    let pointF = await this.mapView.mapPointToViewPoint(resDot);
+
+    let pointFObj1 = new PointF();
+    let pointF1 = await pointFObj1.createObj(pointF.x - 40, pointF.y - 30);
+    let pointF2 = await pointFObj1.createObj(pointF.x - 40, pointF.y + 30);
+    let pointF3 = await pointFObj1.createObj(pointF.x + 40, pointF.y - 30);
+    let pointF4 = await pointFObj1.createObj(pointF.x + 40, pointF.y + 30);
+
     // 得到四个坐标
-    let dotModule = new Dot();
-    let dot1 = await dotModule.createObj(res.x - 40, res.y - 30);
-    let dot2 = await dotModule.createObj(res.x - 40, res.y + 30);
-    let dot3 = await dotModule.createObj(res.x + 40, res.y - 30);
-    let dot4 = await dotModule.createObj(res.x + 40, res.y + 30);
+    let dot1 = await this.mapView.viewPointToMapPoint(pointF1);
+    let dot2 = await this.mapView.viewPointToMapPoint(pointF2);
+    let dot3 = await this.mapView.viewPointToMapPoint(pointF3);
+    let dot4 = await this.mapView.viewPointToMapPoint(pointF4);
 
     // 绘制多边形
     let graphicPolygonModule = new GraphicPolygon();
@@ -513,12 +545,7 @@ export default class DocLayerEditSketchDemo extends Component {
 
     //创建查询范围
     let rectModule = new Rect();
-    let rect = await rectModule.createObj(
-      res.x - 40,
-      res.y - 30,
-      res.x + 40,
-      res.y + 30
-    );
+    let rect = await rectModule.createObj(dot1.x, dot1.y, dot4.x, dot4.y);
 
     // 查询。得到Feature
     let featureQueryModule = new FeatureQuery();
@@ -570,7 +597,7 @@ export default class DocLayerEditSketchDemo extends Component {
       if (result > 0) {
         await (await this.mapView.getGraphicsOverlay()).removeAllGraphics();
         await this.mapView.forceRefresh();
-        this.setState({ deleteFeature: null, modifyFeature: null });
+        this.setState({ deleteFeature: null });
       } else {
         ToastAndroid.show('删除失败', ToastAndroid.SHORT);
       }
@@ -581,6 +608,7 @@ export default class DocLayerEditSketchDemo extends Component {
 
   // 修改属性
   modifyAttr = async () => {
+    this.setState({ modifyType: 0 });
     if (this.state.modifyFeature !== null) {
       let attribute = await this.state.modifyFeature.getAttributes();
       if (this.state.geoType === GeometryType.GeoPoints) {
@@ -594,7 +622,7 @@ export default class DocLayerEditSketchDemo extends Component {
         listData.push(objPoint1);
         listData.push(objPoint2);
         listData.push(objPoint3);
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       } else if (
         this.state.geoType === GeometryType.GeoVarLine ||
@@ -606,7 +634,7 @@ export default class DocLayerEditSketchDemo extends Component {
         let listData = [];
         listData.push(obj1);
         listData.push(obj2);
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       } else if (
         this.state.geoType === GeometryType.GeoPolygon ||
@@ -620,7 +648,7 @@ export default class DocLayerEditSketchDemo extends Component {
         let listData = [];
         listData.push(obj1);
         listData.push(obj2);
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       }
     } else {
@@ -629,10 +657,63 @@ export default class DocLayerEditSketchDemo extends Component {
     }
   };
 
-  startModifyAttr = async () => {};
+  startModify = () => {
+    if (this.state.modifyType === 0) {
+      // 修改属性
+      this.startModifyAttr();
+    } else if (this.state.modifyType === 1) {
+      // 修改样式
+      this.startModifyInfo();
+    }
+
+    this.setState({ modalVisible: false });
+  };
+
+  startModifyAttr = async () => {
+    let b = 0;
+    if (this.state.modifyFeature === null) {
+      return;
+    }
+    let geometry = await this.state.modifyFeature.getGeometry();
+    let geomInfo = await this.state.modifyFeature.getInfo();
+
+    let attrObj = {};
+    for (let i = 0; i < this.state.textArry.length; i++) {
+      let key = this.state.textArry[i].Key;
+      let value = this.state.textArry[i].Value;
+      attrObj[key] = value;
+    }
+
+    let a = await this.state.modifyFeature.modifyFeatureValue(
+      attrObj,
+      geometry,
+      geomInfo
+    );
+
+    if (a > 0) {
+      let featureEditObj = new FeatureEdit();
+      let featureEdit = await featureEditObj.createObjByVectorLayer(
+        this.state.vectorLayer
+      );
+
+      b = await featureEdit.update(
+        this.state.modifyFeatureID,
+        this.state.modifyFeature
+      );
+      if (b > 0) {
+        ToastAndroid.show('修改属性信息成功', ToastAndroid.SHORT);
+        await (await this.mapView.getGraphicsOverlay()).removeAllGraphics();
+        this.setState({ modifyFeature: null, modifyType: -1 });
+        await this.mapView.forceRefresh();
+      } else {
+        ToastAndroid.show('修改属性信息失败', ToastAndroid.SHORT);
+      }
+    }
+  };
 
   // 修改样式
   modifyInfo = async () => {
+    this.setState({ modifyType: 1 });
     if (this.state.modifyFeature === null) {
       ToastAndroid.show('请点击选择要修改的要素！', ToastAndroid.SHORT);
       await this.mapView.registerTapListener();
@@ -653,7 +734,7 @@ export default class DocLayerEditSketchDemo extends Component {
         listData.push(obj2);
         listData.push(obj3);
         listData.push(obj4);
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       } else if (
         this.state.geoType === GeometryType.GeoVarLine ||
@@ -668,7 +749,7 @@ export default class DocLayerEditSketchDemo extends Component {
 
         listData.push(obj1);
 
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       } else if (
         this.state.geoType === GeometryType.GeoPolygon ||
@@ -679,38 +760,243 @@ export default class DocLayerEditSketchDemo extends Component {
         let color = await regInfo.getFillClr();
 
         let listData = [];
-        let obj1 = { id: 1, Key: '填充颜色', Value: String(color) };
-        let obj2 = { id: 0, Key: '填充模式', Value: String(fillMode) };
+        let obj1 = { id: 0, Key: '填充颜色', Value: String(color) };
+        let obj2 = { id: 1, Key: '填充模式', Value: String(fillMode) };
 
         listData.push(obj1);
         listData.push(obj2);
 
-        this.setState({ arrList: listData });
+        this.setState({ arrList: listData, textArry: listData });
         this.setModalVisible(true);
       }
     }
   };
 
-  // 修改几何
-  modifyGeometry = async () => {};
+  startModifyInfo = async () => {
+    let a = 0;
+    let b = 0;
+    if (this.state.modifyFeature === null) {
+      return;
+    }
+    let attr = await this.state.modifyFeature.getAttributes();
+    let geometry = await this.state.modifyFeature.getGeometry();
+    if (this.state.geoType === GeometryType.GeoPoints) {
+      let pntInfoObj = new PntInfo();
+      let pntInfo = await pntInfoObj.createObj();
+      let symID = 14;
+      if (
+        this.state.textArry[0].Value !== undefined &&
+        this.state.textArry[0].Value !== null &&
+        this.state.textArry[0].Value !== ''
+      ) {
+        symID = Number.parseInt(this.state.textArry[0].Value);
+      }
+      await pntInfo.setSymID(symID);
 
+      let outClr1 = 3;
+      if (
+        this.state.textArry[1].Value !== undefined &&
+        this.state.textArry[1].Value !== null &&
+        this.state.textArry[1].Value !== ''
+      ) {
+        outClr1 = Number.parseInt(this.state.textArry[1].Value);
+      }
+      await pntInfo.setOutClr1(outClr1);
+
+      let height = 500;
+      if (
+        this.state.textArry[2].Value !== undefined &&
+        this.state.textArry[2].Value !== null &&
+        this.state.textArry[2].Value !== ''
+      ) {
+        height = Number.parseFloat(this.state.textArry[2].Value);
+      }
+      await pntInfo.setHeight(height);
+
+      let width = 500;
+      if (
+        this.state.textArry[3].Value !== undefined &&
+        this.state.textArry[3].Value !== null &&
+        this.state.textArry[3].Value !== ''
+      ) {
+        width = Number.parseFloat(this.state.textArry[3].Value);
+      }
+      await pntInfo.setWidth(width);
+
+      a = await this.state.modifyFeature.modifyFeatureValue(
+        attr,
+        geometry,
+        pntInfo
+      );
+    } else if (
+      this.state.geoType === GeometryType.GeoVarLine ||
+      this.state.geoType === GeometryType.GeoLines
+    ) {
+      let linInfoObj = new LinInfo();
+      let linInfo = await linInfoObj.createObj();
+      let outClr1 = 5;
+      if (
+        this.state.textArry[0].Value !== undefined &&
+        this.state.textArry[0].Value !== null &&
+        this.state.textArry[0].Value !== ''
+      ) {
+        outClr1 = Number.parseInt(this.state.textArry[0].Value);
+      }
+      await linInfo.setOutClr1(outClr1);
+      a = await this.state.modifyFeature.modifyFeatureValue(
+        attr,
+        geometry,
+        linInfo
+      );
+    } else if (
+      this.state.geoType === GeometryType.GeoPolygon ||
+      this.state.geoType === GeometryType.GeoPolygons
+    ) {
+      let regInfoObj = new RegInfo();
+      let regInfo = await regInfoObj.createObj();
+      let fillClr = 7;
+      if (
+        this.state.textArry[0].Value !== undefined &&
+        this.state.textArry[0].Value !== null &&
+        this.state.textArry[0].Value !== ''
+      ) {
+        fillClr = Number.parseInt(this.state.textArry[0].Value);
+      }
+      await regInfo.setFillClr(fillClr);
+      let fillMode = 0;
+      if (
+        this.state.textArry[1].Value !== undefined &&
+        this.state.textArry[1].Value !== null &&
+        this.state.textArry[1].Value !== ''
+      ) {
+        fillMode = Number.parseInt(this.state.textArry[1].Value);
+      }
+      await regInfo.setFillMode(fillMode);
+      a = await this.state.modifyFeature.modifyFeatureValue(
+        attr,
+        geometry,
+        regInfo
+      );
+    }
+    if (a > 0) {
+      let featureEditObj = new FeatureEdit();
+      let featureEdit = await featureEditObj.createObjByVectorLayer(
+        this.state.vectorLayer
+      );
+      b = await featureEdit.update(
+        this.state.modifyFeatureID,
+        this.state.modifyFeature
+      );
+      if (b > 0) {
+        ToastAndroid.show('修改样式信息成功', ToastAndroid.SHORT);
+        await (await this.mapView.getGraphicsOverlay()).removeAllGraphics();
+        this.setState({ modifyFeature: null, modifyType: -1 });
+        await this.mapView.forceRefresh();
+      } else {
+        ToastAndroid.show('修改样式信息失败', ToastAndroid.SHORT);
+      }
+    }
+  };
+
+  // 修改几何
+  modifyGeometry = async () => {
+    if (this.state.modifyFeature !== null) {
+      Alert.alert('提示', '修改完成之后双击地图保存修改', [
+        {
+          text: '确定',
+          onPress: () => {
+            this.startSketchByGeometry(this.state.geoModify);
+            this.registerDoubleTapListener();
+          },
+        },
+      ]);
+    } else {
+      ToastAndroid.show('请点击选择要修改的要素！', ToastAndroid.SHORT);
+      await this.mapView.registerTapListener();
+    }
+  };
+
+  // 保存修改后的要素
+  saveUpdateFeature = async () => {
+    await this.mapView.unregisterDoubleTapListener();
+
+    let b = 0;
+    let geomInfo = await this.state.modifyFeature.getInfo();
+    let geometry = await this.state.sketchEditor.getGeometry();
+    let a = await this.state.modifyFeature.modifyFeatureValue(
+      null,
+      geometry,
+      geomInfo
+    );
+    let featureEditObj = new FeatureEdit();
+    let featureEdit = await featureEditObj.createObjByVectorLayer(
+      this.state.vectorLayer
+    );
+
+    if (a > 0) {
+      // 修改要素
+      b = await featureEdit.update(
+        this.state.modifyFeatureID,
+        this.state.modifyFeature
+      );
+
+      if (b > 0) {
+        await (await this.mapView.getGraphicsOverlay()).removeAllGraphics();
+        // 清除选择的修改的要素
+        this.setState({ modifyFeature: null });
+        this.stopSketchEdit();
+        await this.mapView.forceRefresh();
+
+        Alert.alert('修改情况', '修改几何信息成功', [
+          {
+            text: '确定',
+            onPress: () => {},
+          },
+        ]);
+      } else {
+        this.stopSketchEdit();
+        Alert.alert('修改情况', '修改几何信息失败', [
+          {
+            text: '确定',
+            onPress: () => {},
+          },
+        ]);
+      }
+    } else {
+      this.stopSketchEdit();
+      ToastAndroid.show('更新要素值失败', ToastAndroid.SHORT);
+    }
+  };
   // 设置修改属性对话框的可见性
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
 
+  _onChangeText = (item, inputText) => {
+    let desTextArray = this.state.textArry;
+    desTextArray[item.id].Value = inputText;
+    this.setState({ textArry: desTextArray });
+  };
+
   renderItem = item => {
     return (
-      <View style={{ marginLeft: 20 }}>
-        <Text>{item.Key}</Text>
+      <View
+        style={{
+          marginLeft: 20,
+          flexDirection: 'row',
+        }}
+      >
+        <Text style={{ marginTop: 15 }}>{item.Key}:</Text>
         <TextInput
+          style={{ flex: 1 }}
           multiline={false}
-          autoCorrect={true}
+          editable={true}
           autoFocus={false}
-          autoCapitalize="none"
           maxLength={1000}
-          value={item.Value}
-          onEndEditing={() => {}}
+          value={this.state.textArry[item.id].Value}
+          onChangeText={inputText => {
+            this._onChangeText(item, inputText);
+          }}
         />
       </View>
     );
@@ -731,7 +1017,7 @@ export default class DocLayerEditSketchDemo extends Component {
         <TouchableOpacity
           style={style.modalButton}
           onPress={() => {
-            this.startModifyAttr();
+            this.startModify();
           }}
         >
           <Text style={{ fontSize: 17, color: '#62b3ff' }}>确定</Text>
@@ -1132,7 +1418,7 @@ const style = StyleSheet.create({
   },
   bottomView: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     backgroundColor: '#000',
     paddingTop: 5,
   },
@@ -1154,7 +1440,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    marginTop: 150,
+    marginTop: 100,
     padding: 5,
     backgroundColor: '#fff',
   },
