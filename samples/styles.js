@@ -119,4 +119,8 @@ export default StyleSheet.create({
     paddingLeft: 5,
     paddingTop: 5,
   },
+  splitLine: {
+    height: 1,
+    backgroundColor: '#cccccc',
+  },
 });

@@ -61,7 +61,7 @@ export default class MapGesturesListen extends Component {
               Type: '短按事件监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data: 'x: ' + res.x + '\n' + 'y: ' + res.y,
             },
             ...this.state.logs,
           ],
@@ -78,7 +78,7 @@ export default class MapGesturesListen extends Component {
               Type: '双击事件监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data: 'x: ' + res.x + '\n' + 'y: ' + res.y,
             },
             ...this.state.logs,
           ],
@@ -95,7 +95,7 @@ export default class MapGesturesListen extends Component {
               Type: '长按事件监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data: 'x: ' + res.x + '\n' + 'y: ' + res.y,
             },
             ...this.state.logs,
           ],
@@ -110,7 +110,7 @@ export default class MapGesturesListen extends Component {
             Type: '触摸事件监听',
             key: Math.random().toString(),
             time: new Date().toLocaleString(),
-            data: JSON.stringify(res, null, 2),
+            data: 'x: ' + res.x + '\n' + 'y: ' + res.y,
           },
           ...this.state.logs,
         ],
@@ -125,7 +125,7 @@ export default class MapGesturesListen extends Component {
         <Text style={styles.logTime}>{item.time}</Text>
         <Text style={styles.logLabel}>{item.event}</Text>
       </View>
-      {item.data !== '{}' && <Text style={styles.logData}>{item.data}</Text>}
+      {item.data !== '' && <Text style={styles.logData}>{item.data}</Text>}
     </View>
   );
 

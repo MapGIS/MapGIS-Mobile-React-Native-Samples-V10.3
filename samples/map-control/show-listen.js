@@ -56,7 +56,12 @@ export default class MapShowListen extends Component {
               Type: '级别变化监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data:
+                'oldResolution: ' +
+                res.oldResolution +
+                '\n' +
+                'newResolution: ' +
+                res.newResolution,
             },
             ...this.state.logs,
           ],
@@ -73,7 +78,12 @@ export default class MapShowListen extends Component {
               Type: '角度变化监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data:
+                'oldAngle: ' +
+                res.oldAngle +
+                '\n' +
+                'newAngle: ' +
+                res.newAngle,
             },
             ...this.state.logs,
           ],
@@ -90,7 +100,18 @@ export default class MapShowListen extends Component {
               Type: '中心点改变监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data:
+                'oldCenterX: ' +
+                res.oldCenterX +
+                '\n' +
+                'oldCenterY: ' +
+                res.oldCenterY +
+                '\n' +
+                'newCenterX: ' +
+                res.newCenterX +
+                '\n' +
+                'newCenterY: ' +
+                res.newCenterY,
             },
             ...this.state.logs,
           ],
@@ -101,13 +122,19 @@ export default class MapShowListen extends Component {
     DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.RefreshListener',
       res => {
+        let str = '';
+        if ('StartRefresh' in res) {
+          str = 'StartRefresh: ' + res.StartRefresh;
+        } else if ('DidFinishRefresh' in res) {
+          str = 'DidFinishRefresh: ' + res.DidFinishRefresh;
+        }
         this.setState({
           logs: [
             {
               Type: '刷新事件监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data: str,
             },
             ...this.state.logs,
           ],
@@ -118,13 +145,24 @@ export default class MapShowListen extends Component {
     DeviceEventEmitter.addListener(
       'com.mapgis.RN.Mapview.AnimationListener',
       res => {
+        let str = '';
+        if ('normalFinish' in res) {
+          str =
+            'animationType: ' +
+            res.animationType +
+            '\n' +
+            'normalFinish: ' +
+            res.normalFinish;
+        } else {
+          str = 'animationType: ' + res.animationType;
+        }
         this.setState({
           logs: [
             {
               Type: '动画监听',
               key: Math.random().toString(),
               time: new Date().toLocaleString(),
-              data: JSON.stringify(res, null, 2),
+              data: str,
             },
             ...this.state.logs,
           ],
@@ -140,7 +178,7 @@ export default class MapShowListen extends Component {
         <Text style={styles.logTime}>{item.time}</Text>
         <Text style={styles.logLabel}>{item.event}</Text>
       </View>
-      {item.data !== '{}' && <Text style={styles.logData}>{item.data}</Text>}
+      {item.data !== '' && <Text style={styles.logData}>{item.data}</Text>}
     </View>
   );
 
