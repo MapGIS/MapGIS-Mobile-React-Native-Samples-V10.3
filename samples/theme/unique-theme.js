@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   DeviceEventEmitter,
   ToastAndroid,
-  Picker,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import styles from '../styles';
 import {
   MGMapView,

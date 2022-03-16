@@ -28,10 +28,10 @@ import {
   DeviceEventEmitter,
   ToastAndroid,
   Dimensions,
-  Picker,
   Alert,
   Modal,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 /**
  * @content 离线要素编辑(草图交互)

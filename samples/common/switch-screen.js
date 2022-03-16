@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import EventEmitter from 'EventEmitter';
+import { StyleSheet,DeviceEventEmitter } from 'react-native';
 import Switch from './switch';
-
-const event = new EventEmitter();
 
 const style = StyleSheet.create({
   switch: {
@@ -15,7 +12,7 @@ class SwitchButton extends Component {
   state = { value: true };
 
   onValueChange = () => {
-    event.emit('change', !this.state.value);
+    DeviceEventEmitter.emit('change', !this.state.value);
     this.setState({ value: !this.state.value });
   };
 
@@ -39,5 +36,5 @@ export default class SwitchScreen extends Component {
     this.listener.remove();
   }
 
-  listener = event.addListener('change', value => this.onSwitch(value));
+  listener = DeviceEventEmitter.addListener('change', value => this.onSwitch(value));
 }
