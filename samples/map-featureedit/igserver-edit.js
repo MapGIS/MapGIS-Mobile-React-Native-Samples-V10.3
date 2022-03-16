@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {
   View,
-  Picker,
   ToastAndroid,
   Text,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import styles from '../styles';
 import { IGSERVER_DOC_WUHANEDIT_PATH, IGSERVER_BASE_URL } from '../utils';
 import {

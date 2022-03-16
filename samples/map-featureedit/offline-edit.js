@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Picker,
   ToastAndroid,
   Text,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
   DeviceEventEmitter,
   Dimensions,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import styles from '../styles';
 import { FEATURE_EDIT_MAPX_PATH } from '../utils';
 import {
